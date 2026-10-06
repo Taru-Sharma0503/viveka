@@ -1,0 +1,17 @@
+.page { padding: 2rem clamp(1.25rem, 5vw, 4rem) 6rem; max-width: 52rem; margin-left: clamp(0rem, 8vw, 9rem); }
+.page__title { font-family: var(--serif); font-weight: 500; font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 2.5rem; }
+.page__quiet { font-family: var(--serif); font-size: 1.3rem; color: var(--ink-soft); max-width: 30rem; }
+.page--prose p { font-family: var(--serif); font-size: 1.3rem; line-height: 1.55; max-width: 36rem; margin-bottom: 1.4rem; }
+
+/* archive: a quiet list, not a dashboard */
+.archive { border-top: 1px solid var(--ink); }
+.archive li { border-bottom: 1px solid rgba(38, 51, 47, .3); }
+.archive a { display: block; padding: 1.4rem 0; text-decoration: none; transition: padding .5s var(--ease); }
+.archive a:hover { padding-left: .8rem; box-shadow: inset 3px 0 0 var(--saffron); }
+.archive__line { display: block; margin-top: .35rem; font-family: var(--serif); font-size: 1.4rem; line-height: 1.35; }
+
+/* a thought for today */
+.daily { max-width: 36rem; padding-left: 1.25rem; border-left: 4px solid var(--saffron); }
+.daily blockquote { font-family: var(--serif); font-size: 1.7rem; line-height: 1.35; margin: .6rem 0 1rem; }
+.daily .teaching__from span { color: var(--ink-soft); }
+.daily__sit { margin-top: 1.5rem; font-weight: 600; }
