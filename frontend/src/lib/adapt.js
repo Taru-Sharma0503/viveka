@@ -26,36 +26,62 @@ function formatSource(t) {
 }
 
 export function normalize(raw) {
-  const s = raw ?? {};
+  const s = raw?.session ?? raw ?? {};
 
-  const thoughts = (s.messages ?? []).map((m) => ({
-    role: String(m.sender).toUpperCase() === 'USER' ? 'user' : 'mentor',
-    text: m.text ?? '',
+  const thoughts = (s.messages ?? raw?.messages ?? []).map((m) => ({
+    role: String(m.sender || m.role || '').toUpperCase() === 'USER' ? 'user' : 'mentor',
+    text: m.text ?? m.content ?? m.message ?? '',
     mode: m.mode,
     meta: m.metadata ?? {},
   }));
 
-  const lastMentorMsg = list.slice().reverse().find((m) => !isUser(m));
-  const teachingObj = s.principle ?? s.teaching ?? lastMentorMsg?.metadata?.teaching ?? null;
+  const lastMentorMsg = [...thoughts].reverse().find((t) => t.role === 'mentor');
+  const meta = lastMentorMsg?.meta ?? {};
+  const crisis = lastMentorMsg?.mode === 'HUMAN_SUPPORT' || meta.mode === 'HUMAN_SUPPORT';
+
+  const q = meta.question;
+  const teachingObj = s.principle ?? s.teaching ?? meta.teaching ?? null;
+
   const principle = teachingObj
     ? {
         quote: teachingObj.quote ?? teachingObj.exactText ?? teachingObj.text,
+        title: teachingObj.title,
+        work: teachingObj.work,
+        section: teachingObj.section,
+        sourceUrl: teachingObj.sourceUrl,
         source:
           teachingObj.sourceWork ??
           teachingObj.source ??
           teachingObj.citation ??
           (teachingObj.work ? `${teachingObj.work}${teachingObj.section ? ', ' + teachingObj.section : ''}` : null),
+        verified: teachingObj.verified === true,
       }
     : null;
 
   const currentStage = s.stage ?? s.currentStage ?? '';
+  const options = (q?.options ?? []).map(toText).filter((o) => o && (crisis || !isElse(o)));
+
+  const latestAction = [...(s.actions ?? [])]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
 
   return {
     id: pickId(raw),
     stage: currentStage,
-    group: stageGroup(currentStage),
+    group: crisis ? 'support' : stageGroup(currentStage),
     thoughts,
     principle,
-    actionId: s.actionId ?? s.action?.id ?? s.action_id ?? (s.actions && s.actions.length > 0 ? s.actions[s.actions.length - 1].id : null),
+    teaching: principle,
+    question: q
+      ? {
+          text: q.text ?? '',
+          options,
+          allowFreeText: q.allowFreeText !== false,
+        }
+      : null,
+    options,
+    explanation: meta.reflection?.explanation ?? '',
+    suggestions: (meta.actions ?? []).map((a) => a.text).filter(Boolean),
+    actionId: s.actionId ?? s.action?.id ?? s.action_id ?? latestAction?.id ?? null,
+    actionText: latestAction?.actionText ?? '',
   };
 }
