@@ -1,0 +1,81 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Session {
+  id              String    @id @default(uuid())
+  topic           String?
+  currentStage    String    @default("UNDERSTAND")
+  completedStages Json      @default("[]")
+  contextData     Json?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  messages        Message[]
+  actions         Action[]
+
+  @@map("sessions")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  sessionId String
+  sender    String
+  text      String
+  stage     String
+  mode      String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("messages")
+}
+
+model Passage {
+  passageId String   @id
+  exactText String
+  title     String
+  work      String
+  section   String?
+  author    String   @default("Swami Vivekananda")
+  sourceUrl String?
+  topic     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("passages")
+}
+
+model Action {
+  id         String         @id @default(uuid())
+  sessionId  String
+  actionText String
+  status     String         @default("PENDING")
+  reviewDue  DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  session    Session        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  reviews    ActionReview[]
+
+  @@index([sessionId])
+  @@map("actions")
+}
+
+model ActionReview {
+  id                String   @id @default(uuid())
+  actionId          String
+  status            String
+  note              String?
+  helpfulnessRating Int?
+  nextStepText      String?
+  createdAt         DateTime @default(now())
+  action            Action   @relation(fields: [actionId], references: [id], onDelete: Cascade)
+
+  @@index([actionId])
+  @@map("action_reviews")
+}

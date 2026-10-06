@@ -1,0 +1,13 @@
+{
+  "name": "viveka",
+  "version": "1.0.0",
+  "description": "Viveka - Contemplative AI Mentorship Platform rooted in Swami Vivekananda's teachings",
+  "scripts": {
+    "start:backend": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "test:backend": "npm --prefix backend test"
+  },
+  "keywords": ["viveka", "mentor", "ai", "vivekananda", "reflection"],
+  "author": "",
+  "license": "ISC"
+}
