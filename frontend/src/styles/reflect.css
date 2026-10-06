@@ -1,98 +1,595 @@
-.reflect {
-  min-height: calc(100vh - 5rem);
-  padding: 1.5rem clamp(1.25rem, 5vw, 4rem) 6rem;
-  animation: settle 1.2s var(--ease) both;
+/* teaching: verified mark and source link */
+.teaching__from strong { font-weight: 600; }
+.teaching__verified {
+  display: flex; align-items: center; gap: .55rem;
+  margin-top: .6rem; font-size: .85rem; color: var(--ink-soft);
 }
-@keyframes settle { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-.reflect__inner { max-width: var(--measure); margin-left: clamp(0rem, 8vw, 9rem); }
-.reflect .label { margin-bottom: 2rem; display: block; }
-
-/* the earlier thoughts recede */
-.past { display: grid; gap: 1.1rem; margin-bottom: 3rem; }
-.past li { font-family: var(--serif); line-height: 1.45; transition: opacity .8s; }
-.past__you { font-size: 1.3rem; opacity: .6; padding-left: 1rem; border-left: 1px solid var(--ink); }
-.past__mentor { font-size: 1rem; opacity: .4; font-family: var(--sans); }
-.past li:nth-last-child(n+5) { opacity: .15; }
-.past li:nth-last-child(n+9) { display: none; }
-
-/* the current thought is the focal point */
-.focus {
-  font-family: var(--serif); font-weight: 500;
-  font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1.22; letter-spacing: -.01em;
-  margin-bottom: 1.25rem;
-  animation: reveal 1.4s var(--ease) both;
-}
-.focus--soft { font-weight: 400; font-size: clamp(1.3rem, 2.4vw, 1.7rem); color: var(--ink-soft); }
-@keyframes reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-
-.hint { color: var(--ink-soft); margin-bottom: 2.5rem; }
-
-/* the generous writing space: a line, not a box */
-.writing { margin-top: 2.5rem; }
-.writing__label { display: block; font-size: .9rem; color: var(--ink-soft); margin-bottom: .4rem; }
-.writing textarea {
-  width: 100%; min-height: 5.5rem; resize: none; overflow: hidden;
-  background: transparent; border: 0; border-bottom: 1.5px solid var(--ink);
-  padding: .5rem 0 .75rem;
-  font-family: var(--serif); font-size: 1.35rem; line-height: 1.5; color: var(--ink);
-  transition: border-color .4s;
-}
-.writing textarea::placeholder { color: var(--ink-soft); opacity: .7; font-style: italic; }
-.writing textarea:focus { outline: none; border-bottom-color: var(--saffron); border-bottom-width: 3px; }
-.writing .btn { margin-top: 1.5rem; }
-
-/* teaching: source and interpretation must look different */
-.teaching { margin: 1rem 0 2rem; }
-.teaching__source { padding-left: 1.25rem; border-left: 4px solid var(--saffron); }
-.teaching blockquote { font-family: var(--serif); font-size: 1.6rem; line-height: 1.35; margin: .5rem 0 1rem; }
-.teaching__from { font-size: .9rem; }
-.teaching__from span { color: var(--ink-soft); }
-.teaching__mine { margin-top: 2rem; padding-left: 1.25rem; border-left: 1px dashed var(--teal); }
-.teaching__mine p:nth-child(2) { margin-top: .5rem; font-size: 1.12rem; }
-.teaching__note { margin-top: .75rem; font-size: .82rem; color: var(--ink-soft); }
-
-/* insight: quiet recognition, saffron as signal */
-.insight {
-  display: flex; align-items: center; gap: .8rem;
-  font-family: var(--serif); font-style: italic; font-size: 1.3rem; margin-bottom: 1rem;
-}
-.insight__mark {
-  width: 1.1rem; height: 1.05rem; background: var(--saffron);
+.teaching__tick {
+  width: .7rem; height: .66rem; background: var(--saffron);
   border-radius: 56% 44% 52% 48% / 48% 54% 46% 52%;
-  box-shadow: 0 0 0 6px rgba(217, 119, 42, .18);
-  animation: breathe 9s ease-in-out infinite;
 }
-.reflect[data-group="insight"] .past__you { border-left-color: var(--saffron); border-left-width: 3px; }
-
-/* choices: personal, not survey cards */
-.choices { margin-top: 2.5rem; }
-.choices__title { font-family: var(--serif); font-weight: 500; font-size: 1.5rem; margin-bottom: 1rem; }
-.choices ul { border-top: 1px solid var(--ink); }
-.choices li { border-bottom: 1px solid rgba(38, 51, 47, .3); }
-.choices button {
-  width: 100%; text-align: left; background: none; border: 0; cursor: pointer;
-  padding: 1rem 0; min-height: 3.25rem;
-  font-family: var(--serif); font-size: 1.3rem;
-  transition: padding .5s var(--ease), color .3s;
+.teaching__link {
+  display: inline-block; margin-top: .9rem; font-size: .95rem;
+  text-decoration-color: var(--saffron); text-decoration-thickness: 2px; text-underline-offset: 5px;
 }
-.choices button:hover:not(:disabled), .choices button:focus-visible { padding-left: .8rem; box-shadow: inset 3px 0 0 var(--saffron); }
-
-/* action: the composition becomes more grounded */
-.reflect[data-group="action"] .reflect__inner { border-left: 2px solid var(--teal); padding-left: clamp(1rem, 3vw, 2rem); }
-.action__title { font-family: var(--serif); font-weight: 500; font-size: clamp(2.2rem, 4vw, 3rem); margin-top: 2.5rem; }
-
-.closing { margin-top: 2.5rem; font-family: var(--serif); font-size: 1.25rem; }
-.closing a { display: inline-block; margin-top: .5rem; font-family: var(--sans); font-size: 1rem; text-decoration-color: var(--saffron); text-decoration-thickness: 2px; text-underline-offset: 5px; }
-
-.yourstep {
-  margin: 1.5rem 0 2.5rem; padding-left: 1.25rem; border-left: 4px solid var(--saffron);
-  font-family: var(--serif); font-size: 1.5rem; line-height: 1.35;
+/* Allow long teaching quotes to expand naturally */
+.teaching,
+.teaching__source,
+.teaching__mine {
+  min-width: 0;
+  height: auto;
+  overflow: visible;
 }
 
-.error { margin-top: 1.5rem; color: var(--ink); border-left: 3px solid var(--saffron); padding-left: .75rem; }
+.teaching blockquote {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+/* Theme choices */
+.themes {
+  margin-top: 2.5rem;
+  max-width: 42rem;
+}
+
+.themes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid rgba(38, 51, 47, 0.35);
+}
+
+.themes li {
+  margin: 0;
+  border-bottom: 1px solid rgba(38, 51, 47, 0.25);
+}
+
+.themes button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  transition: padding 0.25s ease, background 0.25s ease;
+}
+
+.themes button:hover {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.themes__n {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+
+.themes__t {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+}
+
+.themes__a {
+  color: var(--saffron);
+  font-size: 1.25rem;
+  transition: transform 0.25s ease;
+}
+
+.themes button:hover .themes__a {
+  transform: translateX(0.35rem);
+}
+/* =========================================================
+   VIVEKA REFLECTION — PAGE LAYOUT
+   ========================================================= */
+
+.reflect {
+  min-height: calc(100vh - 80px);
+  padding: 4rem clamp(1.5rem, 7vw, 7rem) 6rem;
+}
+
+.reflect__inner {
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.reflect .label {
+  margin-bottom: 1rem;
+}
+
+.reflect .focus {
+  max-width: 42rem;
+  margin-bottom: 1rem;
+}
+
+.reflect .hint {
+  max-width: 36rem;
+  margin-bottom: 2.5rem;
+}
+
+
+/* =========================================================
+   REFLECTION TYPE CHOICES
+   ========================================================= */
+
+.themes {
+  width: 100%;
+  max-width: 48rem;
+  margin: 2.5rem auto 0;
+}
+
+.themes ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid rgba(38, 51, 47, 0.35);
+}
+
+.themes li {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border-bottom: 1px solid rgba(38, 51, 47, 0.25);
+}
+
+.themes button {
+  appearance: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+
+  padding: 1.4rem 0.5rem;
+
+  border: 0;
+  outline: none;
+  background: transparent;
+
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+
+  cursor: pointer;
+
+  transition:
+    padding 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+
+.themes button:hover {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.themes__n {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+}
+
+.themes__t {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.themes__a {
+  color: var(--saffron);
+  font-size: 1.35rem;
+  transition: transform 0.3s var(--ease);
+}
+
+.themes button:hover .themes__a {
+  transform: translateX(0.4rem);
+}
+
+
+/* =========================================================
+   WRITING AREA
+   ========================================================= */
+
+.writing {
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.writing textarea {
+  width: 100%;
+  min-height: 10rem;
+  box-sizing: border-box;
+
+  padding: 1.25rem;
+
+  border: 1px solid rgba(38, 51, 47, 0.35);
+  border-radius: 2px;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.6;
+
+  resize: vertical;
+}
+
+.writing textarea:focus {
+  outline: none;
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 2px rgba(190, 118, 39, 0.12);
+}
+
+.writing button {
+  margin-top: 1rem;
+}
+
+
+/* =========================================================
+   BEGIN / ACTION BUTTON
+   ========================================================= */
+
+.reflect button[type="submit"] {
+  appearance: none;
+}
+
+.reflect__back {
+  display: inline-block;
+  margin-top: 2rem;
+  color: var(--ink-soft);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
-  .reflect__inner { margin-left: 0; }
-  .writing textarea { font-size: 1.2rem; }
+  .reflect {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  .themes {
+    margin-top: 2rem;
+  }
+
+  .themes button {
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 0.75rem;
+    padding: 1.15rem 0.25rem;
+  }
+
+  .themes__t {
+    font-size: 1.25rem;
+  }
+}
+/* Reflection result header */
+.reflect .label {
+  color: var(--saffron);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.4rem;
+}
+
+/* User's original thought */
+.reflect__thought {
+  margin: 0 0 2.5rem;
+  padding: 1.2rem 1.5rem;
+  border-left: 4px solid var(--saffron);
+  background: rgba(255, 255, 255, 0.18);
+
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+/* User's reflection — make it visually distinct */
+.past__you {
+  list-style: none;
+  margin: 1.5rem 0 2.5rem;
+  padding: 1.2rem 1.5rem;
+
+  border-left: 4px solid var(--saffron);
+  background: rgba(255, 255, 255, 0.2);
+
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+/* =========================================================
+   REFLECTION CHOICES
+   ========================================================= */
+/* =========================================================
+   REFLECTION CHOICES
+   ========================================================= */
+
+.choices {
+  width: 100%;
+  max-width: 48rem;
+  margin: 2.5rem auto 0;
+}
+
+.choices__title {
+  margin: 0 0 1.2rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.choices ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choices li {
+  margin: 0;
+}
+
+.choices button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  padding: 1rem 1.25rem;
+
+  border: 1px solid rgba(38, 51, 47, 0.3);
+  border-radius: 2px;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    padding-left 0.25s var(--ease);
+}
+
+.choices button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: var(--saffron);
+  padding-left: 1.5rem;
+}
+
+.choices button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Selected choice */
+.choices__selected {
+  background: rgba(190, 118, 39, 0.15) !important;
+  border-color: var(--saffron) !important;
+  border-left: 4px solid var(--saffron) !important;
+  padding-left: 1.25rem !important;
+  font-weight: 600;
+}
+
+.choices__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1.4rem;
+  height: 1.4rem;
+  flex-shrink: 0;
+
+  border: 1px solid rgba(38, 51, 47, 0.35);
+  border-radius: 50%;
+
+  color: var(--saffron);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.choices__selected .choices__mark {
+  border-color: var(--saffron);
+  background: rgba(190, 118, 39, 0.12);
+}
+.choices__selected {
+  background: rgba(190, 118, 39, 0.16) !important;
+  border: 2px solid var(--saffron) !important;
+  border-left: 5px solid var(--saffron) !important;
+  color: var(--ink) !important;
+  font-weight: 700 !important;
+  padding-left: 1.2rem !important;
+}
+
+.choices__mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(38, 51, 47, 0.4);
+  border-radius: 50%;
+
+  color: var(--saffron);
+  font-weight: 700;
+}
+
+.choices__selected .choices__mark {
+  border-color: var(--saffron);
+  background: rgba(190, 118, 39, 0.12);
+}
+/* REVIEW PAGE */
+
+/* 1–5 rating */
+.rating {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+}
+
+.rating button {
+  width: 2.8rem;
+  height: 2.8rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(38, 51, 47, 0.35);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+
+  font-family: var(--serif);
+  font-size: 1rem;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rating button:hover {
+  border-color: var(--saffron);
+  background: rgba(190, 118, 39, 0.1);
+}
+
+.rating button[aria-pressed="true"] {
+  background: var(--saffron);
+  border-color: var(--saffron);
+  color: white;
+  font-weight: 700;
+}
+
+
+/* What did you discover? */
+[data-group="review"] .writing {
+  margin-top: 2.5rem;
+}
+
+[data-group="review"] .writing__label {
+  display: block;
+  margin-bottom: 0.8rem;
+
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+}
+
+[data-group="review"] textarea {
+  width: 100%;
+  box-sizing: border-box;
+
+  min-height: 8rem;
+  padding: 1.1rem 1.2rem;
+
+  border: 1px solid rgba(38, 51, 47, 0.3);
+  border-radius: 2px;
+
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--ink);
+
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.55;
+
+  resize: vertical;
+}
+
+[data-group="review"] textarea:focus {
+  outline: none;
+  border-color: var(--saffron);
+}
+
+
+/* Save this button */
+[data-group="review"] .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  padding: 0.9rem 1.5rem;
+
+  border: 1px solid var(--saffron);
+  border-radius: 2px;
+
+  background: var(--saffron);
+  color: white;
+
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+[data-group="review"] .btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+[data-group="review"] .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+[data-group="review"] .choices button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+[data-group="review"] .choices button[aria-pressed="true"] {
+  background: rgba(190, 118, 39, 0.16);
+  border-color: var(--saffron);
+  border-left: 4px solid var(--saffron);
+  font-weight: 700;
+}
+
+.choice-check {
+  color: var(--saffron);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+[data-group="review"] .choices button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+[data-group="review"] .choices button[aria-pressed="true"] {
+  background: rgba(190, 118, 39, 0.16);
+  border-color: var(--saffron);
+  border-left: 4px solid var(--saffron);
+  font-weight: 700;
+}
+
+.choice-check {
+  color: var(--saffron);
+  font-size: 1.2rem;
+  font-weight: 700;
 }

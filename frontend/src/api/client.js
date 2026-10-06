@@ -12,6 +12,7 @@ function mapKindToTopic(kind) {
   return 'GENERAL';
 }
 
+// Backend replies { success, data, error }. We return `data`, or throw the real error.
 async function request(path, { method = 'GET', body } = {}) {
   const res = await fetch(`${BASE}${path}`, {
     method,
@@ -50,7 +51,7 @@ export const createSession = (text, kind) =>
     },
   });
 
-// GET /api/v1/sessions/:sessionId
+// GET /sessions/:sessionId
 export const getSession = (sessionId) => request(`/sessions/${sessionId}`);
 
 // POST /api/v1/sessions/:sessionId/messages

@@ -1,22 +1,40 @@
-const DEFAULT_CHOICES = [
-  'I need more time.',
-  'I know what I need to do.',
-  'I want to take one small step.',
-  "I'm still unsure.",
-];
+import { useState } from 'react';
 
-export default function Choices({ busy, onChoose, options, title }) {
-  const items = Array.isArray(options) && options.length > 0 ? options : DEFAULT_CHOICES;
+export default function Choices({ options, title, busy, onChoose }) {
+  const [selected, setSelected] = useState('');
+
+  if (!options?.length) return null;
+
+  const handleChoose = (choice) => {
+    setSelected(choice);
+    onChoose(choice);
+  };
 
   return (
     <div className="choices">
-      <h2 className="choices__title">{title || 'What feels right now?'}</h2>
+      {title && <h2 className="choices__title">{title}</h2>}
+
       <ul>
-        {items.map((c) => (
-          <li key={c}>
-            <button disabled={busy} onClick={() => onChoose(c)}>{c}</button>
-          </li>
-        ))}
+        {options.map((choice) => {
+          const isSelected = selected === choice;
+
+          return (
+            <li key={choice}>
+              <button
+                type="button"
+                className={isSelected ? 'choices__selected' : ''}
+                disabled={busy}
+                onClick={() => handleChoose(choice)}
+              >
+                <span className="choices__mark">
+                  {isSelected ? '✓' : ''}
+                </span>
+
+                <span>{choice}</span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
