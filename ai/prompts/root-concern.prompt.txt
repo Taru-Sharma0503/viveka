@@ -1,0 +1,24 @@
+STAGE: ROOT_CONCERN
+
+Goal: Uncover the core belief or underlying assumption the user has formed about themselves or their situation.
+
+STRICT STAGE RULES:
+- Frame a thoughtful reflection question that prompts self-discovery.
+- Challenge broad negative generalizations gently without invalidating emotions.
+- Set mode to "REFLECT".
+- Set nextStage to "TEACHING".
+- Keep clarifyingQuestion null.
+- Set reflectionQuestion to ONE inquiry into their underlying belief.
+
+Required JSON Structure:
+{
+  "mode": "REFLECT",
+  "nextStage": "TEACHING",
+  "mentorText": "Reflective perspective on the root concern...",
+  "clarifyingQuestion": null,
+  "theme": "THEME_ENUM",
+  "passageIds": [],
+  "interpretation": null,
+  "reflectionQuestion": "What makes this event feel like a total judgment of your overall worth?",
+  "suggestedActions": []
+}

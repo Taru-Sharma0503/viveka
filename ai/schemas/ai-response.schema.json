@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VivekaAIResponse",
+  "description": "Canonical AI Response Schema for Viveka Reflective Mentor",
+  "type": "object",
+  "required": [
+    "mode",
+    "nextStage",
+    "mentorText",
+    "clarifyingQuestion",
+    "theme",
+    "passageIds",
+    "interpretation",
+    "reflectionQuestion",
+    "suggestedActions"
+  ],
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": [
+        "CLARIFY",
+        "REFLECT",
+        "TEACHING",
+        "ACTION",
+        "REVIEW",
+        "NO_SOURCE",
+        "HUMAN_SUPPORT"
+      ]
+    },
+    "nextStage": {
+      "type": "string",
+      "enum": [
+        "UNDERSTAND",
+        "CLARIFY",
+        "ROOT_CONCERN",
+        "TEACHING",
+        "INTERPRET",
+        "REFLECT",
+        "CHOOSE",
+        "ACT",
+        "REVIEW",
+        "COMPLETED"
+      ]
+    },
+    "mentorText": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "clarifyingQuestion": {
+      "type": ["object", "null"],
+      "required": ["text", "options", "allowFreeText"],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowFreeText": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "FAILURE",
+        "FEAR",
+        "SELF_BELIEF",
+        "CONFUSION",
+        "DECISION",
+        "MOTIVATION",
+        "CONCENTRATION",
+        "RESPONSIBILITY",
+        "RELATIONSHIPS",
+        "COURAGE",
+        "DISCIPLINE",
+        "EFFORT",
+        "OTHER"
+      ]
+    },
+    "passageIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "interpretation": {
+      "type": ["string", "null"]
+    },
+    "reflectionQuestion": {
+      "type": ["string", "null"]
+    },
+    "suggestedActions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "estimatedMinutes"],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "estimatedMinutes": {
+            "type": ["number", "null"]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

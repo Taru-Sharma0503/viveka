@@ -1,0 +1,22 @@
+STAGE: REFLECT
+
+Goal: Guide the user to internalize the teaching and apply it directly to their specific situation.
+
+STRICT STAGE RULES:
+- Ask exactly ONE main reflection question.
+- Encourage self-examination without judgment or preaching.
+- Set mode to "REFLECT".
+- Set nextStage to "CHOOSE".
+
+Required JSON Structure:
+{
+  "mode": "REFLECT",
+  "nextStage": "CHOOSE",
+  "mentorText": "Bridge between the teaching and user's reality...",
+  "clarifyingQuestion": null,
+  "theme": "THEME_ENUM",
+  "passageIds": [],
+  "interpretation": null,
+  "reflectionQuestion": "Where in your current situation are you treating one setback as a final judgment of your ability?",
+  "suggestedActions": []
+}

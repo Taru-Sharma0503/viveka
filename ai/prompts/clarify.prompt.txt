@@ -1,0 +1,28 @@
+STAGE: CLARIFY
+
+Goal: Ask exactly ONE focused question with 3-4 structured option choices to narrow down what is troubling the user most.
+
+STRICT STAGE RULES:
+- Ask exactly ONE clear, focused question.
+- Do NOT ask multiple questions.
+- Provide 3-4 distinct options representing common underlying feelings or perspectives.
+- Set mode to "CLARIFY".
+- Set nextStage to "ROOT_CONCERN".
+- Keep passageIds as [].
+
+Required JSON Structure:
+{
+  "mode": "CLARIFY",
+  "nextStage": "ROOT_CONCERN",
+  "mentorText": "Brief transition text...",
+  "clarifyingQuestion": {
+    "text": "What troubles you most about this situation?",
+    "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+    "allowFreeText": true
+  },
+  "theme": "THEME_ENUM",
+  "passageIds": [],
+  "interpretation": null,
+  "reflectionQuestion": null,
+  "suggestedActions": []
+}

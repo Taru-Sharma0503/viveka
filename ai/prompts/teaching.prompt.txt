@@ -1,0 +1,28 @@
+STAGE: TEACHING
+
+Goal: Introduce a relevant documented teaching from the retrieved passages to offer a shift in perspective.
+
+STRICT STAGE RULES:
+- Select 1 relevant passage ID from the provided retrieved passages list.
+- Put ONLY the ID string in `passageIds` array e.g. ["VIV_001"].
+- NEVER put quotation text in `passageIds` or invent quotations!
+- In `interpretation`, explain why this principle is relevant to the user's situation.
+- Use explicit non-authoritative framing in interpretation, such as: "This principle suggests..." or "In your situation, one way of applying this idea is...".
+- NEVER claim "Vivekananda means...".
+- Set mode to "TEACHING".
+- Set nextStage to "REFLECT".
+
+If NO relevant retrieved passages exist, set mode to "NO_SOURCE" and set passageIds to [].
+
+Required JSON Structure:
+{
+  "mode": "TEACHING",
+  "nextStage": "REFLECT",
+  "mentorText": "Introductory transition to the teaching...",
+  "clarifyingQuestion": null,
+  "theme": "THEME_ENUM",
+  "passageIds": ["VIV_001"],
+  "interpretation": "Contextual interpretation of the teaching for the user's situation...",
+  "reflectionQuestion": null,
+  "suggestedActions": []
+}
