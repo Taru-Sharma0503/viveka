@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const Groq = require('groq-sdk');
 
 /**
@@ -8,7 +8,7 @@ class GroqProvider {
   constructor(options = {}) {
     this.name = 'Groq';
     this.apiKey = options.apiKey || process.env.GROQ_API_KEY;
-    this.modelName = options.model || process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
+    this.modelName = options.model || process.env.GROQ_MODEL || 'openai/gpt-oss-20b';
     this.timeoutMs = options.timeoutMs || parseInt(process.env.LLM_TIMEOUT_MS || '15000', 10);
   }
 

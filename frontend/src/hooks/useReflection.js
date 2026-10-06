@@ -12,7 +12,10 @@ export function useReflection() {
     setBusy(true);
     setError('');
     try { return await fn(); }
-    catch { setError('Something got in the way. Take a breath and try again.'); }
+    catch (err) {
+      console.error('[Reflection Error]:', err);
+      setError(err?.message || 'Something got in the way. Take a breath and try again.');
+    }
     finally { setBusy(false); }
   };
 
