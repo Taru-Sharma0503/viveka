@@ -1,30 +1,42 @@
 const BASE = import.meta.env.VITE_API_BASE || '/api/v1';
 
+// Backend replies { success, data, error }. We return `data`, or throw the real error.
 async function request(path, { method = 'GET', body } = {}) {
   const res = await fetch(`${BASE}${path}`, {
     method,
     headers: body ? { 'Content-Type': 'application/json' } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-  return res.json();
+
+  let json = null;
+  try { json = await res.json(); } catch { /* no JSON body */ }
+
+  if (!res.ok || json?.success === false) {
+    const e = json?.error;
+    const msg = (typeof e === 'string' ? e : e?.message) || `Request failed (${res.status})`;
+    throw new Error(msg);
+  }
+  return json?.data ?? json;
 }
 
-// POST /api/v1/sessions
-export const createSession = (text, kind) =>
-  request('/sessions', { method: 'POST', body: { problem: text, kind } }); // ← MATCH
+// POST /sessions  { topic, initialMessage? }
+export const createSession = (topic, initialMessage) =>
+  request('/sessions', {
+    method: 'POST',
+    body: initialMessage ? { topic, initialMessage } : { topic },
+  });
 
-// GET /api/v1/sessions/:sessionId
+// GET /sessions/:sessionId
 export const getSession = (sessionId) => request(`/sessions/${sessionId}`);
 
-// POST /api/v1/sessions/:sessionId/messages
-export const sendMessage = (sessionId, text) =>
-  request(`/sessions/${sessionId}/messages`, { method: 'POST', body: { content: text } }); // ← MATCH
+// POST /sessions/:sessionId/messages  { message }
+export const sendMessage = (sessionId, message) =>
+  request(`/sessions/${sessionId}/messages`, { method: 'POST', body: { message } });
 
-// POST /api/v1/sessions/:sessionId/actions
-export const createAction = (sessionId, description) =>
-  request(`/sessions/${sessionId}/actions`, { method: 'POST', body: { description } }); // ← MATCH
+// POST /sessions/:sessionId/actions  { actionText }
+export const createAction = (sessionId, actionText) =>
+  request(`/sessions/${sessionId}/actions`, { method: 'POST', body: { actionText } });
 
-// POST /api/v1/actions/:actionId/review
+// POST /actions/:actionId/review  { status, note, helpfulnessRating }
 export const reviewAction = (actionId, payload) =>
-  request(`/actions/${actionId}/review`, { method: 'POST', body: payload }); // ← MATCH
+  request(`/actions/${actionId}/review`, { method: 'POST', body: payload });

@@ -1,37 +1,76 @@
-// Which "mood" of screen a backend stage should get.
+// UNDERSTAND/CLARIFY/ROOT_CONCERN → a question; TEACHING → the documented teaching;
+// REFLECT → what it may mean (the quiet "something became clearer" moment); ACTION; REVIEW.
 export function stageGroup(stage = '') {
-  const s = String(stage).toLowerCase();
-  if (/follow|review/.test(s)) return 'review';
-  if (/action/.test(s)) return 'action';
-  if (/choose|choice/.test(s)) return 'choice';
-  if (/principle|teaching/.test(s)) return 'principle';
-  if (/root|insight/.test(s)) return 'insight';
-  return 'understand';
+  switch (String(stage).toUpperCase()) {
+    case 'REVIEW': return 'review';
+    case 'ACTION': return 'action';
+    case 'TEACHING': return 'principle';
+    case 'REFLECT': return 'insight';
+    default: return 'understand';
+  }
 }
 
-const isUser = (m) => ['user', 'human', 'person'].includes(String(m.role || m.sender || '').toLowerCase());
+export const pickId = (obj) => obj?.id ?? obj?.sessionId;
 
-export function pickId(obj) {
-  return obj?.id ?? obj?.sessionId ?? obj?.session?.id ?? obj?.session_id;
+const toText = (o) => (typeof o === 'string' ? o : o?.text ?? o?.label ?? '');
+
+// "Something else" becomes the "write your own" space instead of a button.
+const isElse = (s) => /^something else\.?$/i.test(s.trim());
+
+// Source line for the teaching card; adjust once we see your real teaching object.
+function formatSource(t) {
+  const src = t.source ?? t.citation ?? t.reference;
+  if (typeof src === 'string') return src;
+  const o = src && typeof src === 'object' ? src : t;
+  return [o.work ?? o.title, o.volume, o.chapter, o.page].filter(Boolean).map(String).join(', ');
 }
 
-// Turns whatever GET /sessions/:id returns into a simple shape for the UI.
 export function normalize(raw) {
-  const s = raw?.session ?? raw ?? {};
-  const list = s.messages ?? raw?.messages ?? [];
-  const thoughts = list.map((m) => ({
-    role: isUser(m) ? 'user' : 'mentor',
-    text: m.content ?? m.text ?? m.message ?? '',
+  const s = raw ?? {};
+
+  const thoughts = (s.messages ?? []).map((m) => ({
+    role: String(m.sender).toUpperCase() === 'USER' ? 'user' : 'mentor',
+    text: m.text ?? '',
+    mode: m.mode,
+    meta: m.metadata ?? {},
   }));
-  const principle = s.principle ?? s.teaching ?? null; // only shown if the backend sends it
+
+  // what the mentor produced last (question, teaching, reflection, actions) lives in its metadata
+  const lastMentor = [...thoughts].reverse().find((t) => t.role === 'mentor');
+  const meta = lastMentor?.meta ?? {};
+  const crisis = lastMentor?.mode === 'HUMAN_SUPPORT' || meta.mode === 'HUMAN_SUPPORT';
+
+  const q = meta.question;
+  const t = meta.teaching;
+
+  const latestAction = [...(s.actions ?? [])]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
   return {
-    id: pickId(raw),
-    stage: s.stage,
-    group: stageGroup(s.stage),
+    id: pickId(s),
+    stage: s.currentStage,
+    group: crisis ? 'support' : stageGroup(s.currentStage),
     thoughts,
-    principle: principle
-      ? { quote: principle.quote ?? principle.text, source: principle.source ?? principle.citation }
+    question: q
+      ? {
+          text: q.text ?? '',
+          options: (q.options ?? []).map(toText).filter((o) => o && (crisis || !isElse(o))),
+          allowFreeText: q.allowFreeText !== false,
+        }
       : null,
-    actionId: s.actionId ?? s.action?.id ?? s.action_id ?? null,
+        teaching: t
+      ? {
+          quote: t.quote,
+          title: t.title,
+          work: t.work,
+          section: t.section,
+          sourceUrl: t.sourceUrl,
+          verified: t.verified === true,
+        }
+      : null,
+    explanation: meta.reflection?.explanation ?? '',
+    suggestions: (meta.actions ?? []).map((a) => a.text).filter(Boolean),
+    actionId: latestAction?.id ?? null,
+    actionText: latestAction?.actionText ?? '',
   };
 }
