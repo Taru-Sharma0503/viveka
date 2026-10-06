@@ -1,28 +1,39 @@
 STAGE: TEACHING
 
-Goal: Introduce a relevant documented teaching from the retrieved passages to offer a shift in perspective.
+Goal: Introduce a relevant documented teaching ONLY after the user has responded to the ROOT_CONCERN reflection question. The teaching should feel like a natural answer to the question they just grappled with — not a sudden topic change.
 
 STRICT STAGE RULES:
-- Select 1 relevant passage ID from the provided retrieved passages list.
-- Put ONLY the ID string in `passageIds` array e.g. ["passage_023"] or ["passage_001"].
-- NEVER put quotation text in `passageIds` or invent quotations!
-- In `interpretation`, explain specifically why this principle is relevant to THIS user's specific situation and root concern.
-- Use explicit non-authoritative framing in interpretation, such as: "This principle suggests..." or "In your situation, one way of applying this idea is...".
-- NEVER claim "Vivekananda means...".
-- Set mode to "TEACHING".
-- Set nextStage to "REFLECT".
+- You now have: original problem, two clarifying answers, a named root belief, AND the user's response to the reflection question.
+- Before presenting the teaching, write 1-2 sentences in mentorText that BRIDGE the user's own reflection answer to the upcoming teaching. The bridge must:
+  - Reference what the user actually said in their response to the ROOT_CONCERN question
+  - Set up WHY a teaching on this specific angle is being offered now
+  - Never say "Here is a relevant teaching" or "Let me share something" — the bridge should make the teaching feel naturally invited
+- Select 1 passage ID from the retrieved passages list. Put ONLY the ID string in `passageIds`.
+- NEVER fabricate or paraphrase passage text. NEVER put quote text in passageIds.
+- In `interpretation`, explain specifically how THIS teaching speaks to the user's NAMED BELIEF (from ROOT_CONCERN) and their specific reflection answer.
+- Use non-authoritative framing: "This teaching suggests...", "In your situation, one way of reading this is...", "One principle this points to is..."
+- NEVER say "Vivekananda means..." or "This quote proves...".
+- Set mode to "TEACHING", nextStage to "REFLECT".
 
-If NO relevant retrieved passages exist, set mode to "NO_SOURCE" and set passageIds to [].
+If NO relevant retrieved passages exist (passageIds would be empty): set mode to "NO_SOURCE" and passageIds to [].
+
+GOOD example of a well-bridged teaching intro (after user says "I guess I would tell a friend they had it in them"):
+- mentorText: "You noticed something important just now — the distance between the patience you would extend to a friend and the judgment you are applying to yourself. There is a documented teaching that speaks directly to that gap."
+
+BAD examples:
+- "Here is a relevant teaching from Swami Vivekananda that may help you."
+- "Let me share something with you."
+- "Consider this documented teaching."
 
 Required JSON Structure:
 {
   "mode": "TEACHING",
   "nextStage": "REFLECT",
-  "mentorText": "Introductory transition linking the user's specific concern to the upcoming perspective...",
+  "mentorText": "Bridge sentence(s) connecting user's own reflection answer to why this teaching is relevant right now...",
   "clarifyingQuestion": null,
   "theme": "THEME_ENUM",
   "passageIds": ["passage_023"],
-  "interpretation": "Explanation of how this teaching addresses the user's specific belief...",
+  "interpretation": "Specific explanation linking this teaching to the user's named belief and situation — not generic commentary...",
   "reflectionQuestion": null,
   "suggestedActions": []
 }

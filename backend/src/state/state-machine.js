@@ -13,14 +13,15 @@ export class ReflectionStateMachine {
 
     switch (currentStage) {
       case STAGES.UNDERSTAND:
-        // Transition: UNDERSTAND -> ROOT_CONCERN (with UNDERSTAND, CLARIFY completed)
+        // Transition: UNDERSTAND -> CLARIFY (always ask a follow-up before surfacing root concern)
         return {
-          nextStage: STAGES.ROOT_CONCERN,
-          nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.UNDERSTAND, STAGES.CLARIFY])),
-          mode: MODES.REFLECT,
+          nextStage: STAGES.CLARIFY,
+          nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.UNDERSTAND])),
+          mode: MODES.CLARIFY,
         };
 
       case STAGES.CLARIFY:
+        // Transition: CLARIFY -> ROOT_CONCERN
         return {
           nextStage: STAGES.ROOT_CONCERN,
           nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.CLARIFY])),

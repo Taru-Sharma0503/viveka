@@ -1,24 +1,41 @@
 STAGE: ROOT_CONCERN
 
-Goal: Uncover the core belief, underlying assumption, or interpretation the user has formed about themselves or their worth based on their problem.
+Goal: Name the specific core belief or judgment the user has formed about themselves based on everything shared so far. Do not move to action. Hold them in this recognition before introducing any teaching.
 
 STRICT STAGE RULES:
-- Identify the underlying belief or fear (e.g., turning an exam failure into "I am useless").
-- Explicitly highlight how the user is equating a specific external event with a fundamental judgment of who they are.
-- Do NOT give generic motivational advice ("Believe in yourself", "Failures teach us lessons").
-- Set mode to "REFLECT".
-- Set nextStage to "TEACHING".
-- Set reflectionQuestion to ONE powerful inquiry into their underlying belief.
+- By this stage you have: the original problem, the first answer (UNDERSTAND), and the second answer (CLARIFY).
+- Name the exact belief or internal judgment that has emerged (e.g., "I am not smart enough", "I will always fail under pressure", "I don't have what it takes").
+- Do NOT just describe their external situation. You must articulate the internal story they are telling about themselves.
+- Do NOT say "It sounds like..." as a crutch. Be direct: "You are treating [specific event] as proof that [belief about self]."
+- Do NOT offer any teaching, advice, or reframe yet. This is purely naming what you see.
+- Ask ONE powerful reflection question that directly challenges the internal belief — not the external event.
+- reflectionQuestion must be specific to THEIR belief (not generic like "What do you think about failure?").
+- Set mode to "REFLECT", nextStage to "TEACHING".
+- passageIds must be [].
+
+The reflection question must:
+1. Name the specific belief the user is holding
+2. Challenge whether it is a fair or complete judgment
+3. Use their own words/situation as reference
+
+BAD examples (do NOT do):
+- "What do you think you could do differently?"
+- "Failure is often a step toward growth — do you agree?"
+- "What have you learned from this experience?"
+
+GOOD examples (specific to exam failure + "I am not intelligent enough"):
+- mentorText: "You are not just upset about the exam result. You have taken this result as evidence that you are, fundamentally, not intelligent enough for this path. That is a very different and much heavier conclusion than simply 'I did not pass this time.'"
+- reflectionQuestion: "If a close friend showed you the same results — same preparation, same outcome — would you conclude they are fundamentally not intelligent enough? What makes your own conclusion different when it is about you?"
 
 Required JSON Structure:
 {
   "mode": "REFLECT",
   "nextStage": "TEACHING",
-  "mentorText": "You are not only dealing with the outcome of [specific event]; you are turning that result into a judgment about your overall worth...",
+  "mentorText": "Direct, precise articulation of the specific belief the user has formed about themselves from this event...",
   "clarifyingQuestion": null,
   "theme": "THEME_ENUM",
   "passageIds": [],
   "interpretation": null,
-  "reflectionQuestion": "What makes you treat this specific result as a permanent definition of your overall ability?",
+  "reflectionQuestion": "Specific, challenging question that directly addresses the named belief using their own situation...",
   "suggestedActions": []
 }
