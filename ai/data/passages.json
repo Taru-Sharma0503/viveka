@@ -1,0 +1,325 @@
+[
+  {
+    "id": "VIV_001",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Practical Vedanta",
+      "edition": "17th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 2",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "The remedy for weakness is not brooding over weakness, but thinking of strength. Teach men of the strength that is already within them.",
+    "locationLabel": "Volume 2, Practical Vedanta, Chapter II",
+    "language": "en",
+    "topics": [
+      "self_belief",
+      "courage",
+      "strength",
+      "self_doubt"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_002",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Lectures from Colombo to Almora",
+      "edition": "15th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 3",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Arise, awake, and stop not till the goal is reached.",
+    "locationLabel": "Volume 3, Address at Arumbavur",
+    "language": "en",
+    "topics": [
+      "motivation",
+      "effort",
+      "perseverance",
+      "purpose"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_003",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Lectures from Colombo to Almora",
+      "edition": "15th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 3",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "If you have faith in all the three hundred and thirty millions of your mythological gods, and in all the gods which foreigners have introduced into your midst, and still have no faith in yourselves, there is no salvation for you.",
+    "locationLabel": "Volume 3, My Plan of Campaign",
+    "language": "en",
+    "topics": [
+      "self_belief",
+      "fear",
+      "self_doubt"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_004",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Raja Yoga",
+      "edition": "18th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Take up one idea. Make that one idea your life — think of it, dream of it, live on that idea. Let the brain, muscles, nerves, every part of your body, be full of that idea, and just leave every other idea alone. This is the way to success.",
+    "locationLabel": "Volume 1, Raja Yoga, Chapter VII",
+    "language": "en",
+    "topics": [
+      "concentration",
+      "discipline",
+      "action",
+      "purpose"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_005",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Inspired Talks",
+      "edition": "14th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 7",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "The greatest sin is to think yourself weak.",
+    "locationLabel": "Volume 7, Inspired Talks, Tuesday July 9",
+    "language": "en",
+    "topics": [
+      "fear",
+      "self_belief",
+      "strength",
+      "self_doubt"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_006",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Karma Yoga",
+      "edition": "16th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "We are what our thoughts have made us; so take care about what you think. Words are secondary. Thoughts live; they travel far.",
+    "locationLabel": "Volume 1, Karma Yoga, Chapter VIII",
+    "language": "en",
+    "topics": [
+      "responsibility",
+      "discipline",
+      "action"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_007",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Epistles - First Series",
+      "edition": "12th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 5",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "In a day, when you don't come across any problems — you can be sure that you are travelling in a wrong path.",
+    "locationLabel": "Volume 5, Epistles, Letter to Alasinga",
+    "language": "en",
+    "topics": [
+      "failure",
+      "courage",
+      "effort",
+      "perseverance"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_008",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Lectures and Discourses",
+      "edition": "15th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Face the brute. That is the lesson for all life—face the terrible, face it boldly. Like the monkeys on the ramparts of Benares, the more we flee, the more they pursue. Face the danger, face the trial, face the difficulty.",
+    "locationLabel": "Volume 1, What is Religion?",
+    "language": "en",
+    "topics": [
+      "fear",
+      "courage",
+      "action"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_009",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Practical Vedanta",
+      "edition": "17th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 2",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Stand up, be bold, be strong. Take the whole responsibility on your own shoulders, and know that you are the creator of your own destiny.",
+    "locationLabel": "Volume 2, Practical Vedanta, Part II",
+    "language": "en",
+    "topics": [
+      "responsibility",
+      "courage",
+      "self_belief",
+      "purpose"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_010",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Jnana Yoga",
+      "edition": "16th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "You have to grow from the inside out. None can teach you, none can make you spiritual. There is no other teacher but your own soul.",
+    "locationLabel": "Volume 1, Jnana Yoga, Chapter I",
+    "language": "en",
+    "topics": [
+      "self_belief",
+      "decision",
+      "confusion",
+      "purpose"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_011",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Lectures from Colombo to Almora",
+      "edition": "15th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 3",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "All power is within you; you can do anything and everything. Believe in that, do not believe that you are weak; do not believe that you are half-crazy giants, as most of us do nowadays. You can do any thing and everything, without even the guidance of any one.",
+    "locationLabel": "Volume 3, Work Before Us",
+    "language": "en",
+    "topics": [
+      "self_belief",
+      "motivation",
+      "strength"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_012",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Lectures and Discourses",
+      "edition": "15th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Truth can be stated in a thousand different ways, yet each one can be true.",
+    "locationLabel": "Volume 1, The Ideal of a Universal Religion",
+    "language": "en",
+    "topics": [
+      "confusion",
+      "relationships",
+      "decision"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_013",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Epistles - Second Series",
+      "edition": "12th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 5",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Do not look back upon what has passed. Look forward!",
+    "locationLabel": "Volume 5, Epistles, Letter to Mary Hale",
+    "language": "en",
+    "topics": [
+      "failure",
+      "effort",
+      "perseverance"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_014",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Writings: Poems and Prose",
+      "edition": "10th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 4",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Purity, patience, and perseverance are the three essentials to success, and, above all, love.",
+    "locationLabel": "Volume 4, Prose Writings",
+    "language": "en",
+    "topics": [
+      "discipline",
+      "effort",
+      "relationships",
+      "perseverance"
+    ],
+    "verified": true
+  },
+  {
+    "id": "VIV_015",
+    "source": {
+      "title": "Complete Works of Swami Vivekananda",
+      "author": "Swami Vivekananda",
+      "work": "Karma Yoga",
+      "edition": "16th Edition",
+      "publisher": "Advaita Ashrama",
+      "section": "Volume 1",
+      "sourceUrl": "https://www.ramakrishnamath.in/cwsv"
+    },
+    "text": "Ask nothing; want nothing in return. Give what you have to give; it will come back to you—but do not think of that now.",
+    "locationLabel": "Volume 1, Karma Yoga, Chapter VI",
+    "language": "en",
+    "topics": [
+      "responsibility",
+      "relationships",
+      "action"
+    ],
+    "verified": true
+  }
+]
