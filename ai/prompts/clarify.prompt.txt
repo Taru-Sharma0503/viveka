@@ -1,23 +1,44 @@
 STAGE: CLARIFY
 
-Goal: Ask exactly ONE focused question with 3-4 structured options that narrows down the user's specific situation.
+Goal: Take what the user just shared and dig one level deeper. You know their situation from the UNDERSTAND stage and now their specific answer. Use that to ask a targeted follow-up that uncovers what is really at stake for them.
 
 STRICT STAGE RULES:
-- Ask exactly ONE clear, useful question directly referencing the user's specific scenario.
-- Do NOT ask generic questions like "How does that make you feel?" unless genuinely relevant to narrowing down the situation.
-- Provide 3-4 distinct options directly reflecting the specific dilemma or thought expressed by the user.
-- Set mode to "CLARIFY".
-- Set nextStage to "ROOT_CONCERN".
+- You have the user's original problem AND their first answer. Use BOTH.
+- Do NOT repeat or rephrase what was asked in UNDERSTAND. Ask a different, deeper angle.
+- Do NOT ask vague questions like "How does that make you feel?" or "What do you mean by that?".
+- The question must surface a specific belief, assumption, or fear that is embedded in their situation.
+- mentorText: briefly acknowledge their SPECIFIC answer before asking the next question. 1-2 sentences only.
+- Ask ONE question that gets at what they are most afraid this situation means about them or their future.
+- Provide 3-4 options that name real, specific fears or beliefs someone in their position might hold.
+- Set mode to "CLARIFY", nextStage to "ROOT_CONCERN".
 - Keep passageIds as [].
+
+The progression from UNDERSTAND to CLARIFY should feel like:
+UNDERSTAND asked: "What part of this feels heaviest?" → User answered: "I feel I am not capable enough."
+CLARIFY now asks: "When you say not capable enough — capable of what specifically?" and options explore: whether they mean intelligence, discipline, endurance, or being 'cut out' for the field.
+
+BAD examples (do NOT do this):
+- "That is a very insightful reflection."
+- "I can understand why you might feel that way."
+- option: "I feel stuck"
+- option: "I am confused"
+
+GOOD examples (digging deeper on exam failure + "I feel I am not capable"):
+- "You are not just dealing with a missed result — you are questioning whether you have what it takes at all."
+- question: "What does 'not capable enough' actually mean to you in this situation?"
+- option: "I am not intelligent enough for this level of exam"
+- option: "I lack the discipline to study consistently the way others can"
+- option: "I feel I am simply not built for this field"
+- option: "I keep trying but something always holds me back — maybe I should switch paths"
 
 Required JSON Structure:
 {
   "mode": "CLARIFY",
   "nextStage": "ROOT_CONCERN",
-  "mentorText": "Brief, grounded transition referencing their specific input...",
+  "mentorText": "Brief, specific acknowledgement of their answer, then a transition sentence...",
   "clarifyingQuestion": {
-    "text": "Specific question narrowing down what part of this outcome troubles you most...",
-    "options": ["Tailored option 1", "Tailored option 2", "Tailored option 3", "Tailored option 4"],
+    "text": "Deeper, specific question uncovering the belief or fear underneath their answer...",
+    "options": ["Specific fear/belief 1", "Specific fear/belief 2", "Specific fear/belief 3", "Specific fear/belief 4"],
     "allowFreeText": true
   },
   "theme": "THEME_ENUM",

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') });
 const fs = require('fs');
 const path = require('path');
 const Ajv = require('ajv');
@@ -95,13 +95,13 @@ function buildMockResponse(stage, userMessage, retrievedPassages = [], theme = '
       return {
         mode: 'CLARIFY',
         nextStage: 'CLARIFY',
-        mentorText: 'I hear how deeply this situation has affected you. Before deciding what to do, let us understand what this experience means to you.',
+        mentorText: 'That outcome carries real weight — especially after genuine effort. The result did not match what you worked toward, and that gap is worth understanding properly before drawing any conclusions.',
         clarifyingQuestion: {
-          text: 'What part of this situation feels heaviest for you right now?',
+          text: 'What part of this situation is sitting heaviest with you right now?',
           options: [
-            'I feel I failed my own expectations',
-            'I am worried about what others will think',
-            'I am uncertain about my future path'
+            'I feel my effort was wasted and that is hard to accept',
+            'I am questioning whether I actually have the ability for this',
+            'I am worried about what this means for my future plans'
           ],
           allowFreeText: true
         },
@@ -116,13 +116,14 @@ function buildMockResponse(stage, userMessage, retrievedPassages = [], theme = '
       return {
         mode: 'CLARIFY',
         nextStage: 'ROOT_CONCERN',
-        mentorText: 'Thank you for sharing that. Let us narrow down what troubles you most.',
+        mentorText: 'That points to something specific. You are not just dealing with the outcome — you are interpreting it as evidence of something about who you are.',
         clarifyingQuestion: {
-          text: 'What does this outcome make you believe about yourself?',
+          text: 'When you say you are questioning your ability — what does that actually mean to you?',
           options: [
-            'I think it proves I am not capable',
-            'I feel I lack the necessary discipline',
-            'I fear I will repeat the same mistake'
+            'I think I am simply not intelligent enough for this',
+            'I feel others can do this but I am somehow not built for it',
+            'I lack the focus or discipline that people who succeed have',
+            'I am starting to think I should have chosen a different direction'
           ],
           allowFreeText: true
         },
@@ -137,12 +138,12 @@ function buildMockResponse(stage, userMessage, retrievedPassages = [], theme = '
       return {
         mode: 'REFLECT',
         nextStage: 'TEACHING',
-        mentorText: 'Let us examine the belief underneath this problem. Often we mistake a single outcome for a complete reflection of who we are.',
+        mentorText: 'You are not only dealing with an unwanted result. You are treating that result as proof of a permanent truth about yourself — that you do not have what it takes. That is a heavier and more consequential conclusion than the outcome itself warrants.',
         clarifyingQuestion: null,
         theme: theme || 'SELF_BELIEF',
         passageIds: [],
         interpretation: null,
-        reflectionQuestion: 'If a close friend experienced this exact result, would you conclude they were incapable? What makes the conclusion feel different when it is about you?',
+        reflectionQuestion: 'If a close friend came to you with the exact same result, the same effort, the same outcome — would you tell them they simply lacked the capacity? What makes that conclusion feel different when you apply it to yourself?',
         suggestedActions: []
       };
 

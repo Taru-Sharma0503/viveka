@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const { GeminiProvider } = require('./gemini.provider');
 const { GroqProvider } = require('./groq.provider');
 
