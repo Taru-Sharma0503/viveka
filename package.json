@@ -7,7 +7,22 @@
     "dev:backend": "npm --prefix backend run dev",
     "test:backend": "npm --prefix backend test"
   },
-  "keywords": ["viveka", "mentor", "ai", "vivekananda", "reflection"],
+  "keywords": [
+    "viveka",
+    "mentor",
+    "ai",
+    "vivekananda",
+    "reflection"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@qdrant/js-client-rest": "^1.19.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "dotenv": "^18.0.5",
+    "groq-sdk": "^1.6.0",
+    "openai": "^7.28.0"
+  }
 }
