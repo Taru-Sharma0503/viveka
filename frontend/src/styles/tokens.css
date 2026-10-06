@@ -1,0 +1,16 @@
+:root {
+  --cream: #F3DEAC;      /* environment */
+  --saffron: #D9772A;    /* VIVEKA: direction, insight */
+  --teal: #527C70;       /* grounding */
+  --sage: #A4C3B2;       /* quiet ground */
+  --rose: #EEC6CA;       /* human warmth, rare */
+  --ink: #26332F;        /* thought, readability */
+  --ink-soft: #46554F;   /* small labels (keeps contrast on cream) */
+  --on-saffron: #1B2420; /* text on saffron buttons */
+
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, sans-serif;
+
+  --measure: 40rem;
+  --ease: cubic-bezier(.3, .6, .3, 1);
+}
