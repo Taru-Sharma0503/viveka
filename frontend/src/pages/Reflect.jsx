@@ -88,7 +88,9 @@ export default function Reflect() {
         )}
 
         {/* what you can do next depends on where you are */}
-        {group === 'choice' && <Choices busy={busy} onChoose={reply} />}
+        {group === 'choice' && (
+          <Choices busy={busy} onChoose={reply} options={session.question?.options} title={session.question?.text} />
+        )}
 
         {group === 'action' && !done && !actionId && (
           <div className="action">

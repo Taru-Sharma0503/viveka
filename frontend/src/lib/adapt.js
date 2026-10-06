@@ -38,6 +38,13 @@ export function normalize(raw) {
     : null;
 
   const currentStage = s.stage ?? s.currentStage ?? '';
+  const questionObj = s.question ?? lastMentorMsg?.metadata?.question ?? null;
+  const question = questionObj
+    ? {
+        text: questionObj.text || '',
+        options: Array.isArray(questionObj.options) ? questionObj.options : [],
+      }
+    : null;
 
   return {
     id: pickId(raw),
@@ -45,6 +52,7 @@ export function normalize(raw) {
     group: stageGroup(currentStage),
     thoughts,
     principle,
+    question,
     actionId: s.actionId ?? s.action?.id ?? s.action_id ?? (s.actions && s.actions.length > 0 ? s.actions[s.actions.length - 1].id : null),
   };
 }

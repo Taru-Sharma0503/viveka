@@ -24,19 +24,23 @@ class MemoryStore {
         const raw = fs.readFileSync(passagesPath, 'utf8');
         const list = JSON.parse(raw);
         for (const p of list) {
-          const passageId = p.passageId || p.passage_id;
-          this.passages.set(passageId, {
+          const passageId = p.passageId || p.passage_id || p.id;
+          const passageObj = {
             passageId,
-            exactText: p.exactText,
-            title: p.title,
-            work: p.work,
-            section: p.section || null,
-            author: p.author || 'Swami Vivekananda',
-            sourceUrl: p.sourceUrl || null,
-            topic: p.topic || null,
+            exactText: p.exactText || p.text,
+            title: p.title || (p.source ? p.source.title : 'Complete Works of Swami Vivekananda'),
+            work: p.work || (p.source ? p.source.work : 'Complete Works'),
+            section: p.section || (p.source ? p.source.section : null),
+            author: p.author || (p.source ? p.source.author : 'Swami Vivekananda'),
+            sourceUrl: p.sourceUrl || (p.source ? p.source.sourceUrl : null),
+            topic: p.topic || (p.topics ? p.topics[0] : null),
             createdAt: new Date(),
             updatedAt: new Date(),
-          });
+          };
+          if (passageId) this.passages.set(passageId, passageObj);
+          if (p.id) this.passages.set(p.id, passageObj);
+          if (p.passageId) this.passages.set(p.passageId, passageObj);
+          if (p.passage_id) this.passages.set(p.passage_id, passageObj);
         }
       }
     } catch (err) {
