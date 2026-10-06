@@ -1,4 +1,16 @@
-const BASE = import.meta.env.VITE_API_BASE || '/api/v1';
+const BASE = `${import.meta.env.VITE_API_BASE}/api/v1` || '/api/v1';
+
+const TOPICS = ['FAILURE', 'FEAR', 'ANGER', 'PURPOSE', 'RELATIONSHIPS', 'WORK', 'GRIEF', 'GENERAL'];
+
+function mapKindToTopic(kind) {
+  if (!kind) return 'GENERAL';
+  const upper = String(kind).toUpperCase();
+  if (TOPICS.includes(upper)) return upper;
+  if (kind === 'trouble') return 'GENERAL';
+  if (kind === 'clarity') return 'PURPOSE';
+  if (kind === 'teaching') return 'GENERAL';
+  return 'GENERAL';
+}
 
 // Backend replies { success, data, error }. We return `data`, or throw the real error.
 async function request(path, { method = 'GET', body } = {}) {
@@ -8,35 +20,78 @@ async function request(path, { method = 'GET', body } = {}) {
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  let json = null;
-  try { json = await res.json(); } catch { /* no JSON body */ }
-
-  if (!res.ok || json?.success === false) {
-    const e = json?.error;
-    const msg = (typeof e === 'string' ? e : e?.message) || `Request failed (${res.status})`;
-    throw new Error(msg);
+  if (!res.ok) {
+    let errMsg = `Request failed with status ${res.status}`;
+    try {
+      const errJson = await res.json();
+      if (errJson?.error?.message) {
+        errMsg = errJson.error.message;
+      }
+    } catch {
+      // Ignore JSON parse error
+    }
+    throw new Error(errMsg);
   }
-  return json?.data ?? json;
+
+  const json = await res.json();
+  if (json && json.success === false && json.error) {
+    throw new Error(json.error.message || 'API request failed');
+  }
+
+  return json && json.data !== undefined ? json.data : json;
 }
 
-// POST /sessions  { topic, initialMessage? }
-export const createSession = (topic, initialMessage) =>
+// POST /api/v1/sessions
+export const createSession = (text, kind) =>
   request('/sessions', {
     method: 'POST',
-    body: initialMessage ? { topic, initialMessage } : { topic },
+    body: {
+      initialMessage: text,
+      topic: mapKindToTopic(kind),
+    },
   });
 
 // GET /sessions/:sessionId
 export const getSession = (sessionId) => request(`/sessions/${sessionId}`);
 
-// POST /sessions/:sessionId/messages  { message }
-export const sendMessage = (sessionId, message) =>
-  request(`/sessions/${sessionId}/messages`, { method: 'POST', body: { message } });
+// POST /api/v1/sessions/:sessionId/messages
+export const sendMessage = (sessionId, text) =>
+  request(`/sessions/${sessionId}/messages`, {
+    method: 'POST',
+    body: { message: text },
+  });
 
-// POST /sessions/:sessionId/actions  { actionText }
-export const createAction = (sessionId, actionText) =>
-  request(`/sessions/${sessionId}/actions`, { method: 'POST', body: { actionText } });
+// POST /api/v1/sessions/:sessionId/actions
+export const createAction = (sessionId, description, reviewDue = null) =>
+  request(`/sessions/${sessionId}/actions`, {
+    method: 'POST',
+    body: {
+      actionText: description,
+      reviewDue,
+    },
+  });
 
-// POST /actions/:actionId/review  { status, note, helpfulnessRating }
-export const reviewAction = (actionId, payload) =>
-  request(`/actions/${actionId}/review`, { method: 'POST', body: payload });
+// POST /api/v1/actions/:actionId/review
+export const reviewAction = (actionId, payload = {}) => {
+  const status = payload.status || 'COMPLETED';
+  const note =
+    payload.note ||
+    [payload.understood, payload.chose, payload.learned].filter(Boolean).join('\n\n') ||
+    null;
+  const helpfulnessRating = payload.helpfulnessRating || null;
+
+  return request(`/actions/${actionId}/review`, {
+    method: 'POST',
+    body: {
+      status,
+      note,
+      helpfulnessRating,
+    },
+  });
+};
+
+// GET /api/v1/passages/:passageId
+export const getPassage = (passageId) => request(`/passages/${passageId}`);
+
+// DELETE /api/v1/sessions/:sessionId
+export const deleteSession = (sessionId) => request(`/sessions/${sessionId}`, { method: 'DELETE' });

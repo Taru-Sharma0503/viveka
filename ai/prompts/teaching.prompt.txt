@@ -4,9 +4,9 @@ Goal: Introduce a relevant documented teaching from the retrieved passages to of
 
 STRICT STAGE RULES:
 - Select 1 relevant passage ID from the provided retrieved passages list.
-- Put ONLY the ID string in `passageIds` array e.g. ["VIV_001"].
+- Put ONLY the ID string in `passageIds` array e.g. ["passage_023"] or ["passage_001"].
 - NEVER put quotation text in `passageIds` or invent quotations!
-- In `interpretation`, explain why this principle is relevant to the user's situation.
+- In `interpretation`, explain specifically why this principle is relevant to THIS user's specific situation and root concern.
 - Use explicit non-authoritative framing in interpretation, such as: "This principle suggests..." or "In your situation, one way of applying this idea is...".
 - NEVER claim "Vivekananda means...".
 - Set mode to "TEACHING".
@@ -18,11 +18,11 @@ Required JSON Structure:
 {
   "mode": "TEACHING",
   "nextStage": "REFLECT",
-  "mentorText": "Introductory transition to the teaching...",
+  "mentorText": "Introductory transition linking the user's specific concern to the upcoming perspective...",
   "clarifyingQuestion": null,
   "theme": "THEME_ENUM",
-  "passageIds": ["VIV_001"],
-  "interpretation": "Contextual interpretation of the teaching for the user's situation...",
+  "passageIds": ["passage_023"],
+  "interpretation": "Explanation of how this teaching addresses the user's specific belief...",
   "reflectionQuestion": null,
   "suggestedActions": []
 }

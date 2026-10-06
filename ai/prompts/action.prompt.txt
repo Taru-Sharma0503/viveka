@@ -1,10 +1,10 @@
 STAGE: ACTION
 
-Goal: Offer 2-3 concrete, low-barrier, practical action steps that the user can choose to take.
+Goal: Offer 2-3 concrete, low-barrier, practical action steps directly related to the user's specific problem.
 
 STRICT STAGE RULES:
-- Suggest 2-3 practical, user-owned actions.
-- Do NOT command the user ("You must do X").
+- Suggest 2-3 practical, user-owned actions directly related to the identified problem.
+- Do NOT give generic "stay positive" or "believe in yourself" advice.
 - Use respectful, choice-preserving language ("You could consider...", "One option is...").
 - Include realistic time estimates in minutes (e.g. 10, 15, 20).
 - Set mode to "ACTION".
@@ -14,7 +14,7 @@ Required JSON Structure:
 {
   "mode": "ACTION",
   "nextStage": "ACT",
-  "mentorText": "Encouraging transition to simple practical steps...",
+  "mentorText": "Transition offering practical, concrete steps for your specific problem...",
   "clarifyingQuestion": null,
   "theme": "THEME_ENUM",
   "passageIds": [],
@@ -22,11 +22,11 @@ Required JSON Structure:
   "reflectionQuestion": null,
   "suggestedActions": [
     {
-      "text": "Write down the specific factor you can control before your next attempt.",
-      "estimatedMinutes": 10
+      "text": "Spend 20 minutes analyzing the specific mistakes made in your exam.",
+      "estimatedMinutes": 20
     },
     {
-      "text": "Review three specific areas where you have successfully overcome a challenge before.",
+      "text": "Write down two specific actions you can control before the next attempt.",
       "estimatedMinutes": 15
     }
   ]

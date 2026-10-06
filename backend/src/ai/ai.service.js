@@ -4,10 +4,15 @@ import { RagService } from './rag.service.js';
 import { QuoteValidator } from './quote-validator.js';
 import { mentorResponseSchema } from './output-schema.js';
 import { createError } from '../utils/errors.js';
+import { callAiLayer } from './ai-bridge.js';
 
 export class AiService {
   /**
-   * Orchestrates the mentor response generation for a given stage
+   * Orchestrates the mentor response generation for a given stage.
+   *
+   * Priority:
+   *   1. /ai layer (Gemini primary → Groq fallback → RAG + Qdrant)
+   *   2. Local fallback (hardcoded stage-based responses)
    */
   static async generateMentorResponse({
     stage,
@@ -18,6 +23,42 @@ export class AiService {
     completedStages = [],
     contextData = {},
   }) {
+    // --- Attempt 1: delegate to /ai layer ---
+    try {
+      const aiResult = await callAiLayer({
+        stage,
+        mode,
+        topic,
+        userMessage,
+        history,
+        completedStages,
+        contextData,
+      });
+
+      if (aiResult) {
+        // Validate against the canonical schema before returning
+        const validated = mentorResponseSchema.safeParse(aiResult);
+        if (validated.success) {
+          return validated.data;
+        }
+        console.warn(
+          '[AiService] /ai layer response failed schema validation, using fallback:',
+          validated.error.flatten()
+        );
+      }
+    } catch (err) {
+      console.warn('[AiService] /ai layer error, falling back to local handler:', err.message);
+    }
+
+    // --- Attempt 2: local stage-based fallback ---
+    return AiService._localFallback({ stage, mode, topic, userMessage, contextData, completedStages });
+  }
+
+  /**
+   * Local fallback: hardcoded stage responses using backend DB passages.
+   * Used when the /ai layer is unavailable or returns an invalid response.
+   */
+  static async _localFallback({ stage, mode, topic, userMessage, contextData, completedStages }) {
     let mentorMessageText = '';
     let question = null;
     let teaching = null;
@@ -91,7 +132,7 @@ export class AiService {
           options: [
             'I assumed this single event defines my future',
             'I forgot that skills develop through struggle',
-            'I focused too much on other people’s opinions',
+            'I focused too much on other people\'s opinions',
             'Something else',
           ],
           allowFreeText: true,

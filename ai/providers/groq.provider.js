@@ -43,7 +43,7 @@ class GroqProvider {
           { role: 'user', content: userPrompt }
         ],
         response_format: { type: 'json_object' },
-        temperature: 0.3
+        temperature: 0.5
       }).then(res => res.choices[0]?.message?.content);
 
       const rawText = await Promise.race([generatePromise, timeoutPromise]);
