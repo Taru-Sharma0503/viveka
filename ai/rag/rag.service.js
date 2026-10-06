@@ -69,13 +69,15 @@ function classifyTheme(text = '') {
  * RAG Service: generateContext({ userMessage, theme, conversationContext, currentStage })
  */
 async function generateContext({ userMessage, theme = null, conversationContext = null, currentStage = 'TEACHING' }) {
-  const query = userMessage || (conversationContext ? conversationContext.summary : '');
+  const orig = conversationContext ? (conversationContext.originalProblem || conversationContext.summary || '') : '';
+  const queryParts = [orig, userMessage].filter((s) => s && s.trim().length > 0);
+  const query = queryParts.join(' ');
   const activeTheme = theme || (conversationContext ? conversationContext.topic : null) || classifyTheme(query);
 
   const mappedTopics = THEME_TOPIC_MAP[activeTheme] || [];
 
   const passages = await retrieveRelevantPassages({
-    query,
+    query: query || userMessage,
     topics: mappedTopics,
     topK: 3
   });

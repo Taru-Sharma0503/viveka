@@ -28,7 +28,7 @@ class GeminiProvider {
       model: this.modelName,
       generationConfig: {
         responseMimeType: 'application/json',
-        temperature: 0.3
+        temperature: 0.5
       }
     });
 

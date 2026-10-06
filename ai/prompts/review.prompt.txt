@@ -1,9 +1,10 @@
 STAGE: REVIEW
 
-Goal: Help the user reflect on the action they completed and summarize their insights.
+Goal: Help the user reflect on the action they completed and summarize their specific insights.
 
 STRICT STAGE RULES:
-- Ask what they discovered or felt while carrying out their chosen step.
+- Ask what they discovered or noticed while carrying out their specific chosen step.
+- Make the review specific to their previous journey and original concern.
 - Avoid hollow praise or generic cheerleading ("Great job!"). Focus on self-reflection and insight.
 - Set mode to "REVIEW".
 - Set nextStage to "COMPLETED".
@@ -12,11 +13,11 @@ Required JSON Structure:
 {
   "mode": "REVIEW",
   "nextStage": "COMPLETED",
-  "mentorText": "Grounded acknowledgement of their effort...",
+  "mentorText": "Grounded acknowledgement of the step taken regarding their problem...",
   "clarifyingQuestion": null,
   "theme": "THEME_ENUM",
   "passageIds": [],
   "interpretation": null,
-  "reflectionQuestion": "What shift in perspective did you notice after taking this step?",
+  "reflectionQuestion": "What did you discover about your actual capability when you analyzed your specific mistakes?",
   "suggestedActions": []
 }

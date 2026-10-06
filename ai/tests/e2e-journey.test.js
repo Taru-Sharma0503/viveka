@@ -130,6 +130,23 @@ async function runEndToEndJourneyTests() {
   assert(stage7.mode === 'REVIEW', 'Stage 7 mode must be REVIEW');
   assert(stage7.nextStage === 'COMPLETED', 'Stage 7 nextStage must be COMPLETED');
 
+  // Anti-platitude validation helper
+  const isGenericPlatitude = (text) => {
+    if (!text || typeof text !== 'string') return false;
+    const lower = text.toLowerCase();
+    return (
+      lower.includes('failure is a part of life') ||
+      lower.includes('believe in yourself and keep going') ||
+      lower.includes('stay positive') ||
+      lower.includes('never give up')
+    );
+  };
+
+  assert(!isGenericPlatitude(stage1.mentorText), 'Stage 1 mentorText must not contain generic platitudes');
+  assert(!isGenericPlatitude(stage3.mentorText), 'Stage 3 mentorText must not contain generic platitudes');
+  assert(!isGenericPlatitude(stage3.reflectionQuestion), 'Stage 3 reflectionQuestion must not contain generic platitudes');
+  assert(!isGenericPlatitude(stage5.reflectionQuestion), 'Stage 5 reflectionQuestion must not contain generic platitudes');
+
   console.log('--- END-TO-END REFLECTION JOURNEY TEST PASSED ---\n');
 }
 

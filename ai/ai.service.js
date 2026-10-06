@@ -265,15 +265,21 @@ async function generateMentorResponse({
   // 3. Assemble Prompt
   const currentStagePrompt = stagePrompts[stage.toUpperCase()] || stagePrompts.UNDERSTAND;
   const theme = (conversationContext && conversationContext.topic) || 'SELF_BELIEF';
+  const originalProblem = (conversationContext && conversationContext.originalProblem) || userMessage;
+  const historyText = Array.isArray(conversationContext && conversationContext.history) && conversationContext.history.length > 0
+    ? conversationContext.history.map((m) => `${m.role === 'user' ? 'User' : 'Mentor'}: "${m.content}"`).join('\n')
+    : `User: "${userMessage}"`;
 
   const userPromptText = `
 CURRENT STAGE: ${stage}
 PREVIOUS STAGE: ${previousStage || 'NONE'}
 THEME: ${theme}
-USER MESSAGE: "${userMessage}"
 
-CONVERSATION CONTEXT:
-${JSON.stringify(conversationContext || {}, null, 2)}
+ORIGINAL USER PROBLEM: "${originalProblem}"
+LATEST USER MESSAGE: "${userMessage}"
+
+CONVERSATION HISTORY:
+${historyText}
 
 RETRIEVED PASSAGES (IDs and metadata only):
 ${JSON.stringify(
@@ -289,7 +295,7 @@ ${JSON.stringify(
 
 ${currentStagePrompt}
 
-IMPORTANT INSTRUCTION: Output ONLY valid JSON matching the schema.
+IMPORTANT INSTRUCTION: Reference the user's specific problem ("${originalProblem}") and recent response. Do NOT use generic platitudes ("believe in yourself", "failure is a part of life"). Output ONLY valid JSON matching the schema.
 `;
 
   // 4. Execute Router (Gemini Primary -> Groq Fallback)

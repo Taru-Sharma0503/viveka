@@ -18,11 +18,11 @@ class LLMRouter {
    * @returns {Promise<Object>} parsed JSON response
    */
   async generate({ systemPrompt, userPrompt, responseSchema }) {
-    const isMockMode = process.env.AI_MOCK_MODE === 'true' || process.env.NODE_ENV === 'test';
+    const isMockMode = process.env.AI_MOCK_MODE === 'true';
     const hasGeminiKey = Boolean(process.env.GEMINI_API_KEY || process.env.LLM_API_KEY);
     const hasGroqKey = Boolean(process.env.GROQ_API_KEY);
 
-    // If running in explicit mock mode or test env without live keys, use mock generator
+    // If running in explicit mock mode or without live keys, use mock generator
     if ((isMockMode || (!hasGeminiKey && !hasGroqKey)) && this.mockFallbackGenerator) {
       return this.mockFallbackGenerator({ systemPrompt, userPrompt });
     }

@@ -72,12 +72,16 @@ function mapTopicToTheme(topic) {
  * Build conversationContext expected by /ai from backend session data.
  */
 function buildConversationContext({ topic, history = [], completedStages = [], contextData = {} }) {
+  const userMessages = history.filter((msg) => msg.sender === 'USER');
+  const originalProblem = userMessages.length > 0 ? userMessages[0].text : '';
+
   return {
     topic: mapTopicToTheme(topic),
     isHighRisk: false,
     completedStages,
     passageId: contextData.passageId || null,
-    history: history.slice(-8).map((msg) => ({
+    originalProblem,
+    history: history.map((msg) => ({
       role: msg.sender === 'USER' ? 'user' : 'assistant',
       content: msg.text,
     })),
