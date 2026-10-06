@@ -1,4 +1,5 @@
-// Which "mood" of screen a backend stage should get.
+// UNDERSTAND/CLARIFY/ROOT_CONCERN → a question; TEACHING → the documented teaching;
+// REFLECT → what it may mean (the quiet "something became clearer" moment); ACTION; REVIEW.
 export function stageGroup(stage = '') {
   const s = String(stage).toLowerCase();
   if (/follow|review/.test(s)) return 'review';
@@ -9,19 +10,29 @@ export function stageGroup(stage = '') {
   return 'understand';
 }
 
-const isUser = (m) => ['user', 'human', 'person'].includes(String(m.role || m.sender || '').toLowerCase());
+export const pickId = (obj) => obj?.id ?? obj?.sessionId;
 
-export function pickId(obj) {
-  return obj?.id ?? obj?.sessionId ?? obj?.session?.id ?? obj?.session_id;
+const toText = (o) => (typeof o === 'string' ? o : o?.text ?? o?.label ?? '');
+
+// "Something else" becomes the "write your own" space instead of a button.
+const isElse = (s) => /^something else\.?$/i.test(s.trim());
+
+// Source line for the teaching card; adjust once we see your real teaching object.
+function formatSource(t) {
+  const src = t.source ?? t.citation ?? t.reference;
+  if (typeof src === 'string') return src;
+  const o = src && typeof src === 'object' ? src : t;
+  return [o.work ?? o.title, o.volume, o.chapter, o.page].filter(Boolean).map(String).join(', ');
 }
 
-// Turns whatever GET /sessions/:id returns into a simple shape for the UI.
 export function normalize(raw) {
-  const s = raw?.session ?? raw ?? {};
-  const list = s.messages ?? raw?.messages ?? [];
-  const thoughts = list.map((m) => ({
-    role: isUser(m) ? 'user' : 'mentor',
-    text: m.content ?? m.text ?? m.message ?? '',
+  const s = raw ?? {};
+
+  const thoughts = (s.messages ?? []).map((m) => ({
+    role: String(m.sender).toUpperCase() === 'USER' ? 'user' : 'mentor',
+    text: m.text ?? '',
+    mode: m.mode,
+    meta: m.metadata ?? {},
   }));
 
   const lastMentorMsg = list.slice().reverse().find((m) => !isUser(m));

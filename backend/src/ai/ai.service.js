@@ -101,7 +101,7 @@ export class AiService {
           throw createError.quoteValidationFailed(err.message);
         }
 
-        mentorMessageText = `Consider this perspective from Swami Vivekananda regarding strength and persistence: "${teaching.quote.slice(0, 100)}..."`;
+        mentorMessageText = `Consider this perspective from Swami Vivekananda regarding strength and persistence: "${teaching.quote}"`;
         question = null;
         break;
       }
