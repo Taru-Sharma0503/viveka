@@ -3,9 +3,9 @@ export function stageGroup(stage = '') {
   const s = String(stage).toLowerCase();
   if (/follow|review/.test(s)) return 'review';
   if (/action/.test(s)) return 'action';
-  if (/choose|choice/.test(s)) return 'choice';
+  if (/choose|choice|clarify|root/.test(s)) return 'choice';
   if (/principle|teaching/.test(s)) return 'principle';
-  if (/root|insight/.test(s)) return 'insight';
+  if (/reflect|insight/.test(s)) return 'insight';
   return 'understand';
 }
 
@@ -23,15 +23,28 @@ export function normalize(raw) {
     role: isUser(m) ? 'user' : 'mentor',
     text: m.content ?? m.text ?? m.message ?? '',
   }));
-  const principle = s.principle ?? s.teaching ?? null; // only shown if the backend sends it
+
+  const lastMentorMsg = list.slice().reverse().find((m) => !isUser(m));
+  const teachingObj = s.principle ?? s.teaching ?? lastMentorMsg?.metadata?.teaching ?? null;
+  const principle = teachingObj
+    ? {
+        quote: teachingObj.quote ?? teachingObj.exactText ?? teachingObj.text,
+        source:
+          teachingObj.sourceWork ??
+          teachingObj.source ??
+          teachingObj.citation ??
+          (teachingObj.work ? `${teachingObj.work}${teachingObj.section ? ', ' + teachingObj.section : ''}` : null),
+      }
+    : null;
+
+  const currentStage = s.stage ?? s.currentStage ?? '';
+
   return {
     id: pickId(raw),
-    stage: s.stage,
-    group: stageGroup(s.stage),
+    stage: currentStage,
+    group: stageGroup(currentStage),
     thoughts,
-    principle: principle
-      ? { quote: principle.quote ?? principle.text, source: principle.source ?? principle.citation }
-      : null,
-    actionId: s.actionId ?? s.action?.id ?? s.action_id ?? null,
+    principle,
+    actionId: s.actionId ?? s.action?.id ?? s.action_id ?? (s.actions && s.actions.length > 0 ? s.actions[s.actions.length - 1].id : null),
   };
 }
