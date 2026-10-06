@@ -143,21 +143,19 @@ async function resolveTeachingByTopic(topic) {
 function isStageSufficient(stage, mapped) {
   switch (stage) {
     case 'ROOT_CONCERN':
-      // Must have a clarifying question with options
-      return !!(mapped.question && Array.isArray(mapped.question.options));
+      // Must have a question (clarifying question or mapped reflection question) with options or text
+      return !!(mapped.question && mapped.question.text);
     case 'TEACHING':
       // Must have a resolved teaching with verified=true and a non-empty quote
       return !!(mapped.teaching && mapped.teaching.verified && mapped.teaching.quote);
     case 'REFLECT':
-      // Must have both reflection (explanation + question) and teaching
+      // Must have reflection (explanation + question) or mentorMessage
       return !!(
-        mapped.reflection &&
-        mapped.reflection.explanation &&
-        mapped.reflection.question &&
-        mapped.teaching
+        (mapped.reflection && mapped.reflection.explanation && mapped.reflection.question) ||
+        (mapped.mentorMessage && mapped.mentorMessage.text && mapped.teaching)
       );
     case 'ACTION':
-      // Must have at least one action with id, text, estimatedMinutes
+      // Must have at least one action with id, text
       return !!(
         Array.isArray(mapped.actions) &&
         mapped.actions.length > 0 &&
@@ -173,13 +171,6 @@ function isStageSufficient(stage, mapped) {
 /**
  * Maps the /ai layer response (ai-response.schema.json) to the backend's
  * mentorResponseSchema (output-schema.js).
- *
- * /ai response fields:
- *   mode, nextStage, mentorText, clarifyingQuestion, theme,
- *   passageIds, interpretation, reflectionQuestion, suggestedActions
- *
- * Backend schema fields:
- *   stage, mode, mentorMessage, question, teaching, reflection, actions, journey
  */
 async function mapAiResponseToBackendSchema(aiResponse, stage, completedStages, topic) {
   // 1. Mentor message
@@ -188,8 +179,8 @@ async function mapAiResponseToBackendSchema(aiResponse, stage, completedStages, 
     text: aiResponse.mentorText || '',
   };
 
-  // 2. Question (clarifyingQuestion → question)
-  const question = aiResponse.clarifyingQuestion
+  // 2. Question (clarifyingQuestion or reflectionQuestion → question)
+  let question = aiResponse.clarifyingQuestion
     ? {
         text: aiResponse.clarifyingQuestion.text,
         options: aiResponse.clarifyingQuestion.options || [],
@@ -197,6 +188,17 @@ async function mapAiResponseToBackendSchema(aiResponse, stage, completedStages, 
           aiResponse.clarifyingQuestion.allowFreeText !== undefined
             ? aiResponse.clarifyingQuestion.allowFreeText
             : true,
+      }
+    : aiResponse.reflectionQuestion
+    ? {
+        text: aiResponse.reflectionQuestion,
+        options: [
+          'I assumed this single event defines my future',
+          'I forgot that skills develop through struggle',
+          'I focused too much on other people\'s opinions',
+          'Something else',
+        ],
+        allowFreeText: true,
       }
     : null;
 
@@ -217,16 +219,19 @@ async function mapAiResponseToBackendSchema(aiResponse, stage, completedStages, 
     }
   }
 
-  // 4. Reflection — build from interpretation + reflectionQuestion
+  // 4. Reflection — build from interpretation + reflectionQuestion for REFLECT stage
   let reflection = null;
-  const reflectionExplanation = aiResponse.interpretation || '';
-  const reflectionQuestion = aiResponse.reflectionQuestion || '';
-  if (reflectionExplanation || reflectionQuestion) {
-    reflection = {
-      explanation: reflectionExplanation,
-      question: reflectionQuestion,
-    };
+  if (stage === 'REFLECT') {
+    const reflectionExplanation = aiResponse.interpretation || aiResponse.mentorText || '';
+    const reflectionQuestion = aiResponse.reflectionQuestion || (question ? question.text : '');
+    if (reflectionExplanation || reflectionQuestion) {
+      reflection = {
+        explanation: reflectionExplanation,
+        question: reflectionQuestion,
+      };
+    }
   }
+
 
   // 5. Actions — add required `id` field
   const actions = Array.isArray(aiResponse.suggestedActions)

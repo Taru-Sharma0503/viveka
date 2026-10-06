@@ -336,7 +336,7 @@ IMPORTANT INSTRUCTION: Output ONLY valid JSON matching the schema.
   if (Array.isArray(responseObj.passageIds)) {
     responseObj.passageIds = responseObj.passageIds
       .map((id) => (typeof id === 'string' ? id : id.passageId || id.id))
-      .filter((id) => typeof id === 'string' && id.startsWith('VIV_'));
+      .filter((id) => typeof id === 'string' && (id.startsWith('VIV_') || id.startsWith('passage_')));
   } else {
     responseObj.passageIds = [];
   }
