@@ -1,4 +1,4 @@
-const BASE = `${import.meta.env.VITE_API_BASE}/api/v1` || '/api/v1';
+const BASE = import.meta.env.VITE_API_BASE ? `${import.meta.env.VITE_API_BASE}/api/v1` : '/api/v1';
 
 const TOPICS = ['FAILURE', 'FEAR', 'ANGER', 'PURPOSE', 'RELATIONSHIPS', 'WORK', 'GRIEF', 'GENERAL'];
 
@@ -42,13 +42,10 @@ async function request(path, { method = 'GET', body } = {}) {
 }
 
 // POST /api/v1/sessions
-export const createSession = (text, kind) =>
+export const createSession = (topic) =>
   request('/sessions', {
     method: 'POST',
-    body: {
-      initialMessage: text,
-      topic: mapKindToTopic(kind),
-    },
+    body: { topic },
   });
 
 // GET /sessions/:sessionId
