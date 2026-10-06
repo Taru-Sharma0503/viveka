@@ -84,9 +84,15 @@ export class ReflectionService {
     });
 
     // 6. Update session state in database
+    const contextData = { ...(session.contextData || {}) };
+    if (mentorResponse.teaching) {
+      contextData.passageId = mentorResponse.teaching.passageId;
+    }
+
     await dbService.updateSession(sessionId, {
       currentStage: nextStage,
       completedStages: nextCompletedStages,
+      contextData,
     });
 
     // 7. Persist mentor message in database
