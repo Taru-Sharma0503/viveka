@@ -124,12 +124,12 @@ Update `.env` with the following configuration:
 # Primary LLM Provider (Gemini)
 PRIMARY_LLM_PROVIDER=gemini
 GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-1.5-flash
+GEMINI_MODEL=gemini-3.8-flash
 
 # Fallback LLM Provider (Groq)
 FALLBACK_LLM_PROVIDER=groq
 GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=llama-3.1-8b-instant
+GROQ_MODEL=openai/gpt-oss-20b
 
 # LLM Timeout & Retry Settings
 LLM_TIMEOUT_MS=15000

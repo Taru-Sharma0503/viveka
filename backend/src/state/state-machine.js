@@ -13,19 +13,18 @@ export class ReflectionStateMachine {
     ? [...completedStages]
     : [];
 
-  switch (currentStage) {
-    case STAGES.UNDERSTAND: {
-      if (kind === 'teaching') {
+    switch (currentStage) {
+      case STAGES.UNDERSTAND:
+        // Transition: UNDERSTAND -> CLARIFY (always ask a follow-up before surfacing root concern)
         return {
-          nextStage: STAGES.TEACHING,
-          nextCompletedStages: Array.from(
-            new Set([...currentCompleted, STAGES.UNDERSTAND])
-          ),
-          mode: MODES.TEACHING,
+          nextStage: STAGES.CLARIFY,
+          nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.UNDERSTAND])),
+          mode: MODES.CLARIFY,
         };
       }
 
-      if (kind === 'clarity') {
+      case STAGES.CLARIFY:
+        // Transition: CLARIFY -> ROOT_CONCERN
         return {
           nextStage: STAGES.CLARIFY,
           nextCompletedStages: Array.from(

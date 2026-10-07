@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 /**
@@ -8,7 +8,7 @@ class GeminiProvider {
   constructor(options = {}) {
     this.name = 'Gemini';
     this.apiKey = options.apiKey || process.env.GEMINI_API_KEY || process.env.LLM_API_KEY;
-    this.modelName = options.model || process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+    this.modelName = options.model || process.env.GEMINI_MODEL || 'gemini-3.8-flash';
     this.timeoutMs = options.timeoutMs || parseInt(process.env.LLM_TIMEOUT_MS || '15000', 10);
   }
 

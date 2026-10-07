@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_BASE || '/api/v1';
+const BASE = import.meta.env.VITE_API_BASE ? `${import.meta.env.VITE_API_BASE}/api/v1` : '/api/v1';
 
 // Backend replies { success, data, error }.
 // We return `data`, or throw the real error.
@@ -30,12 +30,10 @@ async function request(path, { method = 'GET', body } = {}) {
 };
 
 // POST /api/v1/sessions
-export const createSession = (topic, kind, initialMessage) =>
+export const createSession = (topic) =>
   request('/sessions', {
     method: 'POST',
-    body: initialMessage
-      ? { topic, kind, initialMessage }
-      : { topic, kind },
+    body: { topic },
   });
 
 // GET /api/v1/sessions/:sessionId

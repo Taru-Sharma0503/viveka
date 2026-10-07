@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 const { OpenAI } = require('openai');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
@@ -41,26 +41,27 @@ async function embedText(text) {
     return generateDeterministicEmbedding(text, 1536);
   }
 
-  // If using OpenAI compatible provider or key starts with sk-
-  if (apiKey.startsWith('sk-') || embeddingModel.includes('text-embedding')) {
+  // If using OpenAI provider (key starts with sk-)
+  if (apiKey.startsWith('sk-')) {
     try {
       const openai = new OpenAI({ apiKey });
       const response = await openai.embeddings.create({
-        model: embeddingModel,
+        model: embeddingModel || 'text-embedding-3-small',
         input: text
       });
       if (response && response.data && response.data[0] && response.data[0].embedding) {
         return response.data[0].embedding;
       }
     } catch (err) {
-      console.warn(`[embedText] Primary provider embedding failed: ${err.message}. Falling back to deterministic embedding.`);
+      console.warn(`[embedText] OpenAI embedding failed: ${err.message}. Falling back...`);
     }
   }
 
   // Gemini Embedding Provider
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: embeddingModel || 'embedding-001' });
+    const geminiEmbedModel = (embeddingModel && !embeddingModel.includes('text-embedding')) ? embeddingModel : 'text-embedding-004';
+    const model = genAI.getGenerativeModel({ model: geminiEmbedModel });
     const result = await model.embedContent(text);
     if (result && result.embedding && result.embedding.values) {
       return result.embedding.values;

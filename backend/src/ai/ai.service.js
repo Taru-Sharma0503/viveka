@@ -111,12 +111,7 @@ export class AiService {
 
         question = {
           text: mentorMessageText,
-          options: [
-            'What happened is still bothering me',
-            'I am afraid of what this means about me',
-            'I keep thinking about how others see me',
-            'Something else',
-          ],
+          options: [],
           allowFreeText: true,
         };
 
@@ -223,12 +218,7 @@ export class AiService {
 
         question = {
           text: reflection.question,
-          options: [
-            'I need to be kinder to myself',
-            'I can see a pattern in how I respond',
-            'I understand what was really hurting me',
-            'Something else',
-          ],
+          options: [],
           allowFreeText: true,
         };
 
