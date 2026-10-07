@@ -196,12 +196,7 @@ async function mapAiResponseToBackendSchema(aiResponse, stage, completedStages, 
     : aiResponse.reflectionQuestion
     ? {
         text: aiResponse.reflectionQuestion,
-        options: [
-          'I assumed this single event defines my future',
-          'I forgot that skills develop through struggle',
-          'I focused too much on other people\'s opinions',
-          'Something else',
-        ],
+        options: [],
         allowFreeText: true,
       }
     : null;

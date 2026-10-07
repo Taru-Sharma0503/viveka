@@ -78,12 +78,7 @@ export class AiService {
 
         question = {
           text: mentorMessageText,
-          options: [
-            'That I am not intelligent enough',
-            'That I disappointed people',
-            'That I am not good enough',
-            'Something else',
-          ],
+          options: [],
           allowFreeText: true,
         };
         break;
@@ -129,12 +124,7 @@ export class AiService {
         mentorMessageText = reflection.explanation;
         question = {
           text: reflection.question,
-          options: [
-            'I assumed this single event defines my future',
-            'I forgot that skills develop through struggle',
-            'I focused too much on other people\'s opinions',
-            'Something else',
-          ],
+          options: [],
           allowFreeText: true,
         };
         break;

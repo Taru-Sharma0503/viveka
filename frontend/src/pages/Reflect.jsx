@@ -145,7 +145,7 @@ export default function Reflect() {
         )}
 
         {/* keep writing: after a mentor message, or beside the options as "your own answer" */}
-        {['understand', 'insight', 'principle', 'support'].includes(group) && (
+        {['understand', 'insight', 'principle', 'support', 'choice'].includes(group) && (
           <WritingSpace
             label={options?.length ? 'Or write your own' : 'Your thought'}
             busy={busy}

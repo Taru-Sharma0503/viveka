@@ -4,9 +4,9 @@ export function stageGroup(stage = '') {
   const s = String(stage).toLowerCase();
   if (/follow|review/.test(s)) return 'review';
   if (/action/.test(s)) return 'action';
-  if (/choose|choice|clarify|root/.test(s)) return 'choice';
+  if (/choose|choice|clarify/.test(s)) return 'choice';
   if (/principle|teaching/.test(s)) return 'principle';
-  if (/reflect|insight/.test(s)) return 'insight';
+  if (/reflect|insight|root/.test(s)) return 'insight';
   return 'understand';
 }
 
