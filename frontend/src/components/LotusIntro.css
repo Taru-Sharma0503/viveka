@@ -1,0 +1,586 @@
+.lotus-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3deac;
+
+  overflow: hidden;
+
+  animation: introFadeOut 1.2s ease 14s forwards;
+}
+
+.lotus-intro__content {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.lotus-scene {
+  position: relative;
+
+  width: 600px;
+  height: 600px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lotus-art {
+  width: 600px;
+  height: 600px;
+
+  overflow: visible;
+}
+
+/* =====================================================
+   LOTUS
+
+   The flower is small from frame one.
+   It never disappears.
+   ===================================================== */
+
+.lotus-flower {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+
+  transform: scale(0.35);
+
+  transition:
+    transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lotus-intro--closed .lotus-flower,
+.lotus-intro--water .lotus-flower {
+  transform: scale(0.35);
+}
+
+.lotus-intro--grow .lotus-flower {
+  transform: scale(0.62);
+}
+
+.lotus-intro--bloom .lotus-flower,
+.lotus-intro--quote .lotus-flower {
+  transform: scale(1);
+}
+
+/* =====================================================
+   PETALS
+   ===================================================== */
+
+.petal {
+  fill: #e58b96;
+  stroke: #c96e78;
+  stroke-width: 2;
+
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.petal-back-left,
+.petal-back-right {
+  fill: #d87984;
+}
+
+.petal-inner-left,
+.petal-inner-right {
+  fill: #eea0a5;
+}
+
+.petal-center {
+  fill: #f2abad;
+}
+
+.petal-front-left,
+.petal-front-right {
+  fill: #db7d88;
+}
+
+/* Closed shape */
+
+.lotus-intro--closed .petal,
+.lotus-intro--water .petal,
+.lotus-intro--grow .petal {
+  transform: scaleY(0.28);
+}
+
+.lotus-intro--closed .petal-center,
+.lotus-intro--water .petal-center,
+.lotus-intro--grow .petal-center {
+  transform: scaleY(0.38);
+}
+
+/* =====================================================
+   BLOOM
+   ===================================================== */
+
+.lotus-intro--bloom .petal-back-left,
+.lotus-intro--quote .petal-back-left {
+  animation: bloomBackLeft 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-back-right,
+.lotus-intro--quote .petal-back-right {
+  animation: bloomBackRight 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-outer-left,
+.lotus-intro--quote .petal-outer-left {
+  animation: bloomOuterLeft 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-outer-right,
+.lotus-intro--quote .petal-outer-right {
+  animation: bloomOuterRight 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-inner-left,
+.lotus-intro--quote .petal-inner-left {
+  animation: bloomInnerLeft 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-inner-right,
+.lotus-intro--quote .petal-inner-right {
+  animation: bloomInnerRight 1.2s ease forwards;
+}
+
+.lotus-intro--bloom .petal-center,
+.lotus-intro--quote .petal-center {
+  animation: bloomCenter 1.2s ease forwards;
+}
+
+/* =====================================================
+   CENTER
+   ===================================================== */
+
+.lotus-center {
+  fill: #e3b45b;
+  stroke: #bd8d3b;
+  stroke-width: 2;
+}
+
+.lotus-seeds circle {
+  fill: #8d672f;
+}
+
+/* =====================================================
+   STEM
+
+   The stem is literally attached to y=315,
+   which is the flower base.
+   ===================================================== */
+
+.stem {
+  fill: none;
+
+  stroke: #66814f;
+  stroke-width: 8;
+
+  stroke-linecap: round;
+
+  transform-origin: 300px 315px;
+
+  transform: scaleY(0.18);
+
+  transition:
+    transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.lotus-intro--closed .stem,
+.lotus-intro--water .stem {
+  transform: scaleY(0.18);
+}
+
+.lotus-intro--grow .stem,
+.lotus-intro--bloom .stem,
+.lotus-intro--quote .stem {
+  transform: scaleY(1);
+}
+
+/* =====================================================
+   LEAVES
+
+   They are attached directly around the lower stem.
+   ===================================================== */
+
+.leaf {
+  fill: #78945c;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  opacity: 1;
+}
+
+
+.leaf-left {
+  transform:
+    translateX(30px)
+    translateY(-80px)
+    scale(0.65);
+}
+
+.leaf-right {
+  transform:
+    translateX(-30px)
+    translateY(-80px)
+    scale(0.65);
+}
+
+.lotus-intro--grow .leaf-left,
+.lotus-intro--bloom .leaf-left,
+.lotus-intro--quote .leaf-left {
+  animation: leafGrowLeft 0.8s ease forwards;
+}
+
+.lotus-intro--grow .leaf-right,
+.lotus-intro--bloom .leaf-right,
+.lotus-intro--quote .leaf-right {
+  animation: leafGrowRight 0.8s ease 0.12s forwards;
+}
+
+/* =====================================================
+   WATER DROP
+
+   THIS IS THE IMPORTANT PART.
+
+   The flower center is x=300, y=315.
+
+   The drop travels from y=70 to y=302,
+   so it physically reaches the top/center
+   of the small lotus.
+   ===================================================== */
+
+.water-drop {
+  fill: #609c98;
+
+  opacity: 0;
+
+  transform-origin: 300px 70px;
+}
+
+.lotus-intro--water .water-drop {
+  opacity: 1;
+
+  animation:
+    waterFall 1.05s
+    cubic-bezier(0.45, 0, 0.55, 1)
+    forwards;
+}
+
+@keyframes waterFall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(232px);
+  }
+}
+
+/* =====================================================
+   RIPPLE
+
+   Exact flower center.
+   ===================================================== */
+
+.water-ripple {
+  fill: none;
+
+  stroke: rgba(91, 145, 139, 0.65);
+  stroke-width: 2;
+
+  opacity: 0;
+
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lotus-intro--water .water-ripple {
+  animation: ripple 0.8s ease 0.9s forwards;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0;
+
+    transform: scale(0.2);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform: scale(1.6);
+  }
+}
+
+/* =====================================================
+   QUOTE
+   ===================================================== */
+
+.lotus-quote {
+  position: absolute;
+
+  left: 50%;
+  top: 55px;
+
+  width: min(440px, 80vw);
+
+  transform:
+    translateX(-50%)
+    translateY(15px);
+
+  text-align: center;
+
+  opacity: 0;
+
+  transition:
+    opacity 1.2s ease,
+    transform 1.2s ease;
+
+  pointer-events: none;
+}
+
+.lotus-intro--quote .lotus-quote {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+.lotus-quote span {
+  display: block;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 38px;
+  line-height: 20px;
+
+  color: #ae7544;
+}
+
+.lotus-quote p {
+  margin: 10px auto 0;
+
+  max-width: 420px;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: clamp(18px, 3vw, 25px);
+
+  line-height: 1.5;
+
+  color: #573b2d;
+}
+
+/* =====================================================
+   VIVEKA
+   ===================================================== */
+
+.lotus-name {
+  position: absolute;
+
+  left: 50%;
+  bottom: 38px;
+
+  transform:
+    translateX(-50%)
+    translateY(8px);
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  font-size: 19px;
+
+  letter-spacing: 0.28em;
+
+  color: #704632;
+
+  opacity: 0;
+
+  animation:
+    nameAppear 1s ease 6.8s forwards;
+}
+
+@keyframes nameAppear {
+  to {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+}
+
+/* =====================================================
+   BLOOM KEYFRAMES
+   ===================================================== */
+
+@keyframes bloomBackLeft {
+  from {
+    transform:
+      rotate(-3deg)
+      scaleY(0.4);
+  }
+
+  to {
+    transform:
+      rotate(-18deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomBackRight {
+  from {
+    transform:
+      rotate(3deg)
+      scaleY(0.4);
+  }
+
+  to {
+    transform:
+      rotate(18deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomOuterLeft {
+  from {
+    transform:
+      rotate(5deg)
+      scaleY(0.3);
+  }
+
+  to {
+    transform:
+      rotate(-18deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomOuterRight {
+  from {
+    transform:
+      rotate(-5deg)
+      scaleY(0.3);
+  }
+
+  to {
+    transform:
+      rotate(18deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomInnerLeft {
+  from {
+    transform:
+      rotate(3deg)
+      scaleY(0.3);
+  }
+
+  to {
+    transform:
+      rotate(-8deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomInnerRight {
+  from {
+    transform:
+      rotate(-3deg)
+      scaleY(0.3);
+  }
+
+  to {
+    transform:
+      rotate(8deg)
+      scaleY(1);
+  }
+}
+
+@keyframes bloomCenter {
+  from {
+    transform: scaleY(0.25);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* =====================================================
+   FADE OUT
+   ===================================================== */
+
+@keyframes introFadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+  .lotus-scene {
+    width: 100vw;
+    height: 520px;
+  }
+
+  .lotus-art {
+    width: 520px;
+    height: 520px;
+  }
+
+  .lotus-quote {
+    top: 45px;
+  }
+
+  .lotus-quote p {
+    padding: 0 20px;
+    font-size: 18px;
+  }
+}
+
+/* =====================================================
+   REDUCED MOTION
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .lotus-intro {
+    animation: none;
+  }
+
+  .lotus-intro__content * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

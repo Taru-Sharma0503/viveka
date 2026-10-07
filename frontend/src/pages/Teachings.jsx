@@ -3,20 +3,32 @@
 const DAILY = null; // e.g. { text: '…', source: 'Complete Works, Vol. _, p. _' }
 
 export default function Teachings() {
+  const thought = localStorage.getItem('viveka-daily-thought');
+
   return (
     <main className="page">
       <h1 className="page__title">Teachings</h1>
 
       <section className="daily">
         <p className="label">A thought for today</p>
-        {DAILY ? (
+
+        {thought ? (
           <>
-            <blockquote>{DAILY.text}</blockquote>
-            <p className="teaching__from">Where this comes from → <span>{DAILY.source}</span></p>
-            <p className="daily__sit">Sit with this →</p>
+            <blockquote>{thought}</blockquote>
+            <button
+  type="button"
+  className="daily__sit"
+  onClick={() => {
+    window.location.href = '/reflect?kind=teaching';
+  }}
+>
+  Sit with this →
+</button>
           </>
         ) : (
-          <p className="page__quiet">A verified, sourced teaching will appear here.</p>
+          <p className="page__quiet">
+            A thought will appear here when you open Viveka.
+          </p>
         )}
       </section>
     </main>

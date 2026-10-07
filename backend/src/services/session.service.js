@@ -7,7 +7,7 @@ export class SessionService {
   /**
    * Create a new mentorship session
    */
-  static async createSession({ topic = null, initialMessage = null }) {
+  static async createSession({ topic = null, kind = null, initialMessage = null }) {
     const sessionId = uuidv4();
     const createdAt = new Date();
 
@@ -16,7 +16,9 @@ export class SessionService {
       topic: topic || null,
       currentStage: STAGES.UNDERSTAND,
       completedStages: [],
-      contextData: {},
+      contextData: {
+  kind: kind || null,
+},
     });
 
     if (initialMessage && initialMessage.trim().length > 0) {

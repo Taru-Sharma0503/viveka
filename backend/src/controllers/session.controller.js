@@ -9,8 +9,8 @@ export class SessionController {
    */
   static async createSession(req, res, next) {
     try {
-      const { topic, initialMessage } = req.validatedBody;
-      const data = await SessionService.createSession({ topic, initialMessage });
+      const { topic, kind, initialMessage } = req.validatedBody;
+const data = await SessionService.createSession({ topic, kind, initialMessage });
       return sendSuccess(res, data, 201);
     } catch (err) {
       next(err);

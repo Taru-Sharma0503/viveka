@@ -79,12 +79,22 @@ export default function Reflect() {
   }
 
   /* ---------- A sequence of thoughts ---------- */
-  const { thoughts, group, principle, actionId, options } = session;
-  const lastMentorIndex = [...thoughts].map((t) => t.role).lastIndexOf('mentor');
-  const current = lastMentorIndex >= 0 ? thoughts[lastMentorIndex] : null;
-  const past = thoughts.filter((_, i) => i !== lastMentorIndex);
-  const paragraphs = (current?.text || '').split(/\n+/).filter(Boolean);
-  const reviewId = done || actionId;
+  /* ---------- A sequence of thoughts ---------- */
+const { thoughts = [], group, teaching, actionId, options } = session;
+
+const lastMentorIndex = [...thoughts]
+  .map((t) => t.role)
+  .lastIndexOf('mentor');
+
+const current = lastMentorIndex >= 0 ? thoughts[lastMentorIndex] : null;
+
+const past = thoughts.filter((t, i) => {
+  if (i >= lastMentorIndex) return false;
+  return t.role === 'user';
+});
+
+const paragraphs = (current?.text || '').split(/\n+/).filter(Boolean);
+const reviewId = done || actionId;
 
   return (
     <main className="reflect" data-group={group}>
@@ -97,12 +107,8 @@ export default function Reflect() {
           ))}
         </ol>
 
-        {group === 'insight' && (
-          <p className="insight"><span className="insight__mark" aria-hidden="true" />Something became clearer.</p>
-        )}
-
-        {current && group === 'principle' && principle?.quote ? (
-          <TeachingBlock principle={principle} interpretation={current.text} />
+        {current && group === 'principle' && teaching?.quote ? (
+          <TeachingBlock principle={teaching} interpretation={current.text} />
         ) : (
           current && (
             <div className="focus-block" key={current.text} aria-live="polite">

@@ -35,7 +35,7 @@ export function useReflection() {
   // normal message so the mentor answers it (and it is not saved twice).
   const begin = (text, kind, theme) =>
     run(async () => {
-      const created = await createSession(topicFor(theme));
+      const created = await createSession(topicFor(theme), kind);
       const id = pickId(created);
       remember({ id, kind, theme, line: text });
       await sendMessage(id, text);
