@@ -1,18 +1,7 @@
 const BASE = import.meta.env.VITE_API_BASE ? `${import.meta.env.VITE_API_BASE}/api/v1` : '/api/v1';
 
-const TOPICS = ['FAILURE', 'FEAR', 'ANGER', 'PURPOSE', 'RELATIONSHIPS', 'WORK', 'GRIEF', 'GENERAL'];
-
-function mapKindToTopic(kind) {
-  if (!kind) return 'GENERAL';
-  const upper = String(kind).toUpperCase();
-  if (TOPICS.includes(upper)) return upper;
-  if (kind === 'trouble') return 'GENERAL';
-  if (kind === 'clarity') return 'PURPOSE';
-  if (kind === 'teaching') return 'GENERAL';
-  return 'GENERAL';
-}
-
-// Backend replies { success, data, error }. We return `data`, or throw the real error.
+// Backend replies { success, data, error }.
+// We return `data`, or throw the real error.
 async function request(path, { method = 'GET', body } = {}) {
   const res = await fetch(`${BASE}${path}`, {
     method,
@@ -20,26 +9,25 @@ async function request(path, { method = 'GET', body } = {}) {
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  if (!res.ok) {
-    let errMsg = `Request failed with status ${res.status}`;
-    try {
-      const errJson = await res.json();
-      if (errJson?.error?.message) {
-        errMsg = errJson.error.message;
-      }
-    } catch {
-      // Ignore JSON parse error
-    }
-    throw new Error(errMsg);
+  let json = null;
+
+  try {
+    json = await res.json();
+  } catch {
+    // No JSON response body.
   }
 
-  const json = await res.json();
-  if (json && json.success === false && json.error) {
-    throw new Error(json.error.message || 'API request failed');
+  if (!res.ok || json?.success === false) {
+    const error = json?.error;
+    const message =
+      (typeof error === 'string' ? error : error?.message) ||
+      `Request failed (${res.status})`;
+
+    throw new Error(message);
   }
 
-  return json && json.data !== undefined ? json.data : json;
-}
+  return json?.data ?? json;
+};
 
 // POST /api/v1/sessions
 export const createSession = (topic) =>
@@ -48,33 +36,35 @@ export const createSession = (topic) =>
     body: { topic },
   });
 
-// GET /sessions/:sessionId
-export const getSession = (sessionId) => request(`/sessions/${sessionId}`);
+// GET /api/v1/sessions/:sessionId
+export const getSession = (sessionId) =>
+  request(`/sessions/${sessionId}`);
 
 // POST /api/v1/sessions/:sessionId/messages
-export const sendMessage = (sessionId, text) =>
+export const sendMessage = (sessionId, message) =>
   request(`/sessions/${sessionId}/messages`, {
     method: 'POST',
-    body: { message: text },
+    body: { message },
   });
 
 // POST /api/v1/sessions/:sessionId/actions
-export const createAction = (sessionId, description, reviewDue = null) =>
+export const createAction = (sessionId, actionText) =>
   request(`/sessions/${sessionId}/actions`, {
     method: 'POST',
-    body: {
-      actionText: description,
-      reviewDue,
-    },
+    body: { actionText },
   });
 
 // POST /api/v1/actions/:actionId/review
 export const reviewAction = (actionId, payload = {}) => {
   const status = payload.status || 'COMPLETED';
+
   const note =
     payload.note ||
-    [payload.understood, payload.chose, payload.learned].filter(Boolean).join('\n\n') ||
+    [payload.understood, payload.chose, payload.learned]
+      .filter(Boolean)
+      .join('\n\n') ||
     null;
+
   const helpfulnessRating = payload.helpfulnessRating || null;
 
   return request(`/actions/${actionId}/review`, {
@@ -88,7 +78,11 @@ export const reviewAction = (actionId, payload = {}) => {
 };
 
 // GET /api/v1/passages/:passageId
-export const getPassage = (passageId) => request(`/passages/${passageId}`);
+export const getPassage = (passageId) =>
+  request(`/passages/${passageId}`);
 
 // DELETE /api/v1/sessions/:sessionId
-export const deleteSession = (sessionId) => request(`/sessions/${sessionId}`, { method: 'DELETE' });
+export const deleteSession = (sessionId) =>
+  request(`/sessions/${sessionId}`, {
+    method: 'DELETE',
+  });

@@ -8,8 +8,10 @@ export class ReflectionStateMachine {
    * @param {string[]} completedStages
    * @returns {{ nextStage: string, nextCompletedStages: string[], mode: string }}
    */
-  static transition(currentStage, completedStages = []) {
-    const currentCompleted = Array.isArray(completedStages) ? [...completedStages] : [];
+  static transition(currentStage, completedStages = [], kind = null) {
+  const currentCompleted = Array.isArray(completedStages)
+    ? [...completedStages]
+    : [];
 
     switch (currentStage) {
       case STAGES.UNDERSTAND:
@@ -19,22 +21,45 @@ export class ReflectionStateMachine {
           nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.UNDERSTAND])),
           mode: MODES.CLARIFY,
         };
+      }
 
       case STAGES.CLARIFY:
         // Transition: CLARIFY -> ROOT_CONCERN
         return {
-          nextStage: STAGES.ROOT_CONCERN,
-          nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.CLARIFY])),
-          mode: MODES.REFLECT,
+          nextStage: STAGES.CLARIFY,
+          nextCompletedStages: Array.from(
+            new Set([...currentCompleted, STAGES.UNDERSTAND])
+          ),
+          mode: MODES.CLARIFY,
         };
+      }
+
+      return {
+        nextStage: STAGES.ROOT_CONCERN,
+        nextCompletedStages: Array.from(
+          new Set([...currentCompleted, STAGES.UNDERSTAND])
+        ),
+        mode: MODES.REFLECT,
+      };
+    }
+
+      case STAGES.CLARIFY:
+  return {
+    nextStage: STAGES.REFLECT,
+    nextCompletedStages: Array.from(
+      new Set([...currentCompleted, STAGES.CLARIFY])
+    ),
+    mode: MODES.REFLECT,
+  };
 
       case STAGES.ROOT_CONCERN:
-        // Transition: ROOT_CONCERN -> TEACHING
-        return {
-          nextStage: STAGES.TEACHING,
-          nextCompletedStages: Array.from(new Set([...currentCompleted, STAGES.ROOT_CONCERN])),
-          mode: MODES.TEACHING,
-        };
+  return {
+    nextStage: STAGES.REFLECT,
+    nextCompletedStages: Array.from(
+      new Set([...currentCompleted, STAGES.ROOT_CONCERN])
+    ),
+    mode: MODES.REFLECT,
+  };
 
       case STAGES.TEACHING:
         // Transition: TEACHING -> REFLECT

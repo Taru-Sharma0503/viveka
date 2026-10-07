@@ -67,9 +67,10 @@ export class ReflectionService {
 
     // 4. Calculate stage transition
     const { nextStage, nextCompletedStages, mode } = ReflectionStateMachine.transition(
-      session.currentStage,
-      completedStages
-    );
+  session.currentStage,
+  completedStages,
+  session.contextData?.kind
+);
 
     // 5. Generate AI mentor response for the transitioned stage
     const messages = await dbService.getMessagesBySessionId(sessionId);

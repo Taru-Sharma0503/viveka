@@ -6,12 +6,13 @@ import Review from './pages/Review.jsx';
 import MyReflections from './pages/MyReflections.jsx';
 import Teachings from './pages/Teachings.jsx';
 import About from './pages/About.jsx';
-
+import LotusIntro from './components/LotusIntro.jsx';
 export default function App() {
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <Nav />
+      <LotusIntro />
       <div id="main">
         <Routes>
           <Route path="/" element={<Home />} />

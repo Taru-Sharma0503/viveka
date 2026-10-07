@@ -9,6 +9,15 @@ export const createSessionSchema = z.object({
     })
     .nullable()
     .optional(),
+
+  kind: z
+    .enum(['trouble', 'clarity', 'teaching'], {
+      errorMap: () => ({
+        message: 'Kind must be trouble, clarity, or teaching',
+      }),
+    })
+    .optional(),
+
   initialMessage: z
     .string({
       invalid_type_error: 'initialMessage must be a string',
